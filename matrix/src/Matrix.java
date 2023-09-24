@@ -2,14 +2,6 @@ import java.util.Scanner;
 
 public class Matrix {
     public static void main(String[] args) {
-        double[][] mat;
-        mat = readmatrix();
-        printmatrix(mat);
-        reducechelon(mat);
-        printmatrix(mat);
-        double x = (double) 3 / 7;
-        System.out.printf("%f\n", x);
-        System.out.printf("%f\n", x * 7);
     }
 
     public static double[][] readmatrix() {
