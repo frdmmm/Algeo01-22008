@@ -28,7 +28,7 @@ public class Matrix {
             while (mat[a][j] == 0.0) {
                 a++;
                 if (a == row) {
-                    return;
+                    break;
                 }
             }
             if (a != row) {// swap
@@ -66,7 +66,7 @@ public class Matrix {
             while (mat[a][j] == 0.0) {
                 a++;
                 if (a == row) {
-                    return;
+                    break;
                 }
             }
             if (a != row) {// swap
@@ -104,5 +104,73 @@ public class Matrix {
                 }
             }
         }
+    }
+
+    public static double[][] inversejordan(double[][] mat) {
+        int row = mat.length;
+        int col = mat[0].length;
+        double[][] hasil = new double[row][col];
+        for (int c = 0; c < row; c++) {
+            for (int d = 0; d < col; d++) {
+                if (c == d) {
+                    hasil[c][d] = 1;
+                } else {
+                    hasil[c][d] = 0;
+                }
+            }
+        }
+        int i = 0;
+        int j = 0;
+        // cari baris utama yang tidak0
+        while (i < row && j < col) {
+            int a = i;
+            while (mat[a][j] == 0.0) {
+                a++;
+                if (a == row) {
+                    break;
+                }
+            }
+            if (a != row) {// swap
+                double[] temp = mat[a];
+                mat[a] = mat[i];
+                mat[i] = temp;
+                double[] temp2 = hasil[a];
+                hasil[a] = hasil[i];
+                hasil[i] = temp2;
+                double pembagi = mat[i][j];// buat satu utama
+                for (int k = 0; k < col; k++) {
+                    mat[i][k] /= pembagi;
+                    hasil[i][k] /= pembagi;
+                }
+                for (int k = 0; k < row; k++) {
+                    if (k != i) {
+                        double elbawah = mat[k][j];
+                        for (int l = 0; l < col; l++) {
+                            mat[k][l] -= elbawah * mat[i][l];
+                            hasil[k][l] -= elbawah * hasil[i][l];
+                        }
+                    }
+                }
+                i++;
+                j++;
+            } else {
+                j++;
+            }
+        }
+        boolean flag = true;
+        for (int a = 0; a < row; a++) {
+            for (int b = 0; b < col; b++) {
+                if (mat[a][b] != 0) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                break;
+            }
+        }
+        if (flag) {
+            System.out.println("Matriks tidak memiliki balikan. Abaikan jika ada print matrix.");
+        }
+        return hasil;
     }
 }
