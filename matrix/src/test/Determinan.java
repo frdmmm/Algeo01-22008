@@ -9,9 +9,6 @@ public class Determinan {
     public static int getLastIdxCol(double[][] matrix){
         return (matrix[0].length - 1);
     }
-    public static boolean isSquare(double[][] matrix){
-        return (getLastIdxCol(matrix) == getLastIdxRow(matrix));
-    }
     public static void readMatrix(double[][] matrix) {
         Scanner input = new Scanner(System.in);
         for (int row = 0; row <= getLastIdxRow(matrix); row++){
@@ -64,38 +61,32 @@ public class Determinan {
         }
    }
     public static double determinanKofaktor(double[][] matrix){
-        if (isSquare(matrix)){
-            if (getLastIdxRow(matrix) == 0) return (matrix[0][0]); // matrix 1x1
-            if (getLastIdxRow(matrix) == 1) return ((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])); // matrix 2x2 ad-bc
+        if (getLastIdxRow(matrix) == 0) return (matrix[0][0]); // matrix 1x1
+        if (getLastIdxRow(matrix) == 1) return ((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])); // matrix 2x2 ad-bc
 
-            double out = 0;
-            for (int j = 0; j <= getLastIdxCol(matrix); j++){
-                out += plusMin(0, j) * matrix[0][j] * determinanKofaktor(cofactor(matrix, 0, j));
-            }
-            return out;
+        double out = 0;
+        for (int j = 0; j <= getLastIdxCol(matrix); j++){
+            out += plusMin(0, j) * matrix[0][j] * determinanKofaktor(cofactor(matrix, 0, j));
         }
-        return -9999; // Tidak ada determinan (bukan matrix n x n)
+        return out;
     }
 
     public static double determinanReduksiBaris(double[][] matrix){
         double [][] copyM = copyMatrix(matrix);
-        if (isSquare(matrix)){
-            if (getLastIdxRow(matrix) == 0) return (matrix[0][0]); // matrix 1x1
+        if (getLastIdxRow(matrix) == 0) return (matrix[0][0]); // matrix 1x1
 
-            for (int c = 0; c <= getLastIdxCol(matrix); c++) {
-                for (int i = c + 1; i <= getLastIdxRow(matrix); i++) {
-                    if (copyM[i][c] != 0) {
-                        subtractKRow(copyM, c, i);
-                    }
+        for (int c = 0; c <= getLastIdxCol(matrix); c++) {
+            for (int i = c + 1; i <= getLastIdxRow(matrix); i++) {
+                if (copyM[i][c] != 0) {
+                    subtractKRow(copyM, c, i);
                 }
             }
-            double determinan = copyM[0][0];
-            for (int i = 1; i <= getLastIdxRow(matrix); i++){
-                determinan *= copyM[i][i];
-            }
-            return (determinan);
         }
-        return -9999; // Tidak ada determinan (bukan matrix n x n)
+        double determinan = copyM[0][0];
+        for (int i = 1; i <= getLastIdxRow(matrix); i++){
+            determinan *= copyM[i][i];
+        }
+        return (determinan);
     }
 
     // matriks balikan
@@ -113,7 +104,7 @@ public class Determinan {
         double[][] adjoin = new double[getLastIdxRow(matrix) + 1][getLastIdxCol(matrix) + 1];
         double det = determinanKofaktor(matrix);
         
-        if (isSquare(matrix) && (determinanKofaktor(matrix) != 0)){
+        if ((determinanKofaktor(matrix) != 0)){
             if (getLastIdxCol(matrix) == 0) return matrix; // matrix 1x1
             if (getLastIdxCol(matrix) == 1){ // matrix 2x2
                 adjoin[0][0] = matrix[1][1] / det;
@@ -133,6 +124,61 @@ public class Determinan {
             
             return adjoin;
         }
-        return adjoin; // Tidak ada balikan (belum selesai)
+        return adjoin; // Tidak ada balikan, determinan = 0 (belum selesai)
     }
+
+    // Kramer
+
+    public static double[] kramer(double[][] matrix){
+        int col = 0;
+        int nSol = 0;
+        double[][] SPL = new double[getLastIdxRow(matrix) + 1][getLastIdxCol(matrix)];
+        double[][] SPL2 = new double[getLastIdxRow(matrix) + 1][1];
+        double[][] kr = new double[getLastIdxRow(matrix) + 1][getLastIdxCol(matrix)];
+        double[] out = new double[getLastIdxRow(matrix) + 1]; 
+        double det2;
+        // Ax = b
+            // Inisialisasi SPL (Matriks A)
+            for (int i = 0; i <= getLastIdxCol(SPL); i++){
+                for (int j = 0; j <= getLastIdxCol(SPL); j++){
+                    SPL[i][j] = matrix[i][j];
+                }
+            }
+            double det1 = determinanKofaktor(SPL);
+            //Inisialisasi SPL2 (Matriks b)
+            for (int i = 0; i <= getLastIdxRow(SPL2); i++){
+                SPL2[i][0] = matrix[i][getLastIdxCol(matrix)];
+            }
+
+        for (int x = 0; x <= getLastIdxRow(matrix); x++){
+            // cari solusi
+            for (int i = 0; i <= getLastIdxRow(kr); i++){
+                for (int j = 0; j <= getLastIdxCol(kr); j++){
+                    if (j != col){
+                        kr[i][j] = SPL[i][j];
+                    }
+                    else{
+                        kr[i][j] = SPL2[i][0];
+                    }
+                }
+            }
+            col++;
+            det2 = determinanKofaktor(kr);
+            out[nSol++] = (det2/det1);
+        }
+        // udah: satu solusi, banyak solusi, 
+        // belum: tidak ada solusi
+        return out;
+    } 
+    
+    /*public static void main(String[] args){
+        double[][] matrix = new double[3][4];
+        readMatrix(matrix);
+        //System.out.println(determinanKofaktor(matrix));
+        double[] out = kramer(matrix);
+        for (int i = 0; i < out.length; i++){
+            System.out.println(out[i]);
+        } 
+
+    }*/
 }
