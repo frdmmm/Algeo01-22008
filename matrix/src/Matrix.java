@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import test.*;
 
@@ -220,51 +221,62 @@ public class Matrix {
     }
 
     public static void solusi(double[][] matrix) {
-        /*
-         * matrix = 1 1 2 4
-         * 0 1 1 2
-         * 0 0 0 0
-         */
-
-        // hitung baris yang 0 semua
-        int cnt = 0;
-        boolean flag;
-        for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++) {
-            flag = true;
-            for (int j = 0; j <= Determinan.getLastIdxRow(matrix); j++) {
-                if (matrix[i][j] != 0) {
-                    flag = false;
-                    continue; // skip baris
+        String[] solusi = new String[Determinan.getLastIdxCol(matrix)]; 
+        for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++){
+            for (int j = i; j < Determinan.getLastIdxCol(matrix); j++){
+                if (matrix[i][j] == 1){
+                    solusi[j] = Double.toString(matrix[i][Determinan.getLastIdxCol(matrix)]);
+                    break;
                 }
             }
-            if (flag) {
-                cnt++;
-            }
-        }
-        // cnt = jumlah parameter
-        String[] solusi = new String[Determinan.getLastIdxCol(matrix)];
-        for (int i = 0; i < cnt; i++) {
-            int x = 0;
-            char ch = (char) ('a' + x);
-            solusi[Determinan.getLastIdxRow(matrix) - (x++)] = ch + "";
         }
 
-        for (int i = Determinan.getLastIdxRow(matrix) - cnt; i >= 0; i--) {
-            int x = 0;
-            solusi[i] = Double.toString(matrix[i][Determinan.getLastIdxCol(matrix)]);
-            for (int j = i + 1; j <= Determinan.getLastIdxCol(matrix) - 1; j++) {
-                if (cnt > 0) {
-                    if (j > (Determinan.getLastIdxCol(matrix) - 1 - cnt)) {
-                        solusi[i] += "-" + Double.toString(matrix[i][j]) + solusi[j];
-                    } else {
-                        solusi[i] += "-" + Double.toString(matrix[i][j]);
+        int idx = 0;
+        for (int i = 0; i < solusi.length; i++){
+            char ch = (char) ('a' + idx);
+            if (solusi[i] == null){
+                solusi[i] = ch + "";
+                idx++;
+            }
+        }
+
+        HashMap<Integer, Double> hm = new HashMap<>();
+        for (int i = Determinan.getLastIdxRow(matrix); i >= 0; i--){
+            for (int j = i; j < Determinan.getLastIdxCol(matrix); j++){
+                if ((matrix[i][j] == 1) && (j == Determinan.getLastIdxCol(matrix) - 1)){
+                    hm.put(j, matrix[i][j + 1]);
+                }
+                else if ((matrix[i][j] == 1) && (j != Determinan.getLastIdxCol(matrix) - 1)){
+                    double tempI = matrix[i][Determinan.getLastIdxCol(matrix)];
+                    String tempS = "";
+                    for (int k = j + 1; k < Determinan.getLastIdxCol(matrix); k++){
+                        if (hm.get(k) == null){
+                            if  (matrix[i][k] != 0){
+                                tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + "); 
+                                tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] * -1)) + "(" + solusi[k] + ")";
+                            }
+                        }
+                        else{
+                            tempI -= matrix[i][k] * hm.get(k);
+                        }
                     }
+                    
+                    if (idx == 0) hm.put(j, tempI);
+                    
+                    tempS = tempS.trim();
+                    if (tempI == 0){
+                        solusi[j] = tempS;
+                    }
+                    else{
+                        solusi[j] = Double.toString(tempI) + " " + tempS;
+                    }
+                    break;
                 }
-
             }
         }
-
-        for (int i = 0; i < 3; i++) {
+        // print sol
+        for (int i = 0; i < solusi.length; i++){
+            System.out.print("x" + (i + 1) + " = ");
             System.out.println(solusi[i]);
         }
     }
