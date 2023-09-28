@@ -280,4 +280,25 @@ public class Matrix {
             System.out.println(solusi[i]);
         }
     }
+
+    public static String multString(String str, double val){
+        char[] spl = str.toCharArray();
+        String out = "";
+        String angka = "";
+
+        for (char c : spl){
+            if (Character.isDigit(c) || c == '.'){
+                angka += c;
+            }
+            else{
+                if (!angka.isEmpty()){
+                    System.out.println(angka);
+                    out += Double.toString(Double.parseDouble(angka) * val);
+                    angka = "";
+                }
+                out += c + "";
+            }
+        }
+        return out;
+    }
 }
