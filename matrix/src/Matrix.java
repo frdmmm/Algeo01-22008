@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Matrix {
     public static void main(String[] args) {
@@ -23,7 +24,7 @@ public class Matrix {
         int i = 0;
         int j = 0;
         // cari baris utama yang tidak0
-        while (i < row && j < col) {
+        while (i < row && j < col - 1) {
             int a = i;
             while (mat[a][j] == 0.0) {
                 a++;
@@ -61,7 +62,7 @@ public class Matrix {
         int i = 0;
         int j = 0;
         // cari baris utama yang tidak0
-        while (i < row && j < col) {
+        while (i < row && j < col - 1) {
             int a = i;
             while (mat[a][j] == 0.0) {
                 a++;
@@ -171,6 +172,91 @@ public class Matrix {
         if (flag) {
             System.out.println("Matriks tidak memiliki balikan. Abaikan jika ada print matrix.");
         }
+        return hasil;
+    }
+
+    public static solusi[] caris(double[][] ma) {
+        int row = ma.length;
+        int col = ma[0].length - 1;
+        solusi[] sa = new solusi[row];
+        for (int i = 0; i < row; i++) {
+            sa[i].teger = ma[i][row];
+            sa[i].stt.pengali = 0;
+            sa[i].stt.var = "x" + (i + 1);
+        }
+        for (int i = row - 1; i >= 0; i--) {
+            int count = 0;
+            int[] idx = new int[col];
+            for (int j = 0; j < col - 2; j--) {
+                if (ma[i][j] != 0.0) {
+                    idx[count] = j;
+                    count++;
+                }
+            }
+            if (count == 1) {
+                for (int k = 0; k < i; k++) {
+                    sa[k].teger = sa[k].teger - ma[k][idx[0]];
+                    ma[k][idx[0]] = 0.0;
+                }
+            } else if (count > 1) {
+                for (int l = 0; l < count; l++) {
+                    for (int k = 0; k < i; k++) {
+                        sa[k].stt.pengali = (ma[k][idx[l]]);
+                        ma[k][idx[l]] = 0.0;
+                    }
+                }
+            }
+        }
+        return sa;
+    }
+}
+
+class inkstr {
+    public double pengali;
+    public String var;
+
+    public static inkstr kalivar(inkstr x, int a) {
+        inkstr hasil = x;
+        hasil.pengali *= a;
+        return hasil;
+    }
+
+    public static void printvar(inkstr x) {
+        if (x.pengali != 0) {
+            System.out.println(x.pengali + x.var);
+        }
+    }
+
+    public String getVar() {
+        return var;
+    }
+
+    public double getPengali() {
+        return pengali;
+    }
+}
+
+class solusi {
+    public inkstr stt;
+    public double teger;
+
+    public inkstr getStt() {
+        return stt;
+    }
+
+    public double getTeger() {
+        return teger;
+    }
+
+    public void printsolusi(solusi sa) {
+        System.out.print(sa.teger + " ");
+        inkstr.printvar(sa.getStt());
+    }
+
+    public solusi kaliso(solusi sa, int a) {
+        solusi hasil = sa;
+        hasil.teger *= a;
+        hasil.stt = inkstr.kalivar(hasil.getStt(), a);
         return hasil;
     }
 }
