@@ -1,8 +1,52 @@
 import java.util.Scanner;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import test.*;
 
 public class Matrix {
+    public static double[][] readtxtmat(String str) {
+        String path = str;
+
+        // Initialize a list to store the rows of the matrix
+        List<List<Double>> matrix = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] elements = line.split("\\s+");
+                List<Double> row = new ArrayList<>();
+                for (String element : elements) {
+                    row.add(Double.parseDouble(element));
+                }
+                matrix.add(row);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int Row = matrix.size();
+        int Col = matrix.get(0).size();
+        double[][] normal = new double[Row][Col];
+
+        for (int i = 0; i < Row; i++) {
+            List<Double> row = matrix.get(i);
+            normal[i] = new double[Col];
+
+            for (int j = 0; j < Col; j++) {
+                normal[i][j] = row.get(j);
+            }
+        }
+        return normal;
+
+    }
+
     public static void main(String[] args) {
+        double[][] ma = readmatrix();
+        echelon(ma);
+        printmatrix(ma);
+        solusi(ma);
     }
 
     public static double[][] readmatrix() {
@@ -175,88 +219,53 @@ public class Matrix {
         return hasil;
     }
 
-    public static solusi[] caris(double[][] ma) {
-        int row = ma.length;
-        int col = ma[0].length - 1;
-        solusi[] sa = new solusi[row];
-        for (int i = 0; i < row; i++) {
-            sa[i].teger = ma[i][row];
-            sa[i].stt.pengali = 0;
-            sa[i].stt.var = "x" + (i + 1);
-        }
-        for (int i = row - 1; i >= 0; i--) {
-            int count = 0;
-            int[] idx = new int[col];
-            for (int j = 0; j < col - 2; j--) {
-                if (ma[i][j] != 0.0) {
-                    idx[count] = j;
-                    count++;
+    public static void solusi(double[][] matrix) {
+        /*
+         * matrix = 1 1 2 4
+         * 0 1 1 2
+         * 0 0 0 0
+         */
+
+        // hitung baris yang 0 semua
+        int cnt = 0;
+        boolean flag;
+        for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++) {
+            flag = true;
+            for (int j = 0; j <= Determinan.getLastIdxRow(matrix); j++) {
+                if (matrix[i][j] != 0) {
+                    flag = false;
+                    continue; // skip baris
                 }
             }
-            if (count == 1) {
-                for (int k = 0; k < i; k++) {
-                    sa[k].teger = sa[k].teger - ma[k][idx[0]];
-                    ma[k][idx[0]] = 0.0;
-                }
-            } else if (count > 1) {
-                for (int l = 0; l < count; l++) {
-                    for (int k = 0; k < i; k++) {
-                        sa[k].stt.pengali = (ma[k][idx[l]]);
-                        ma[k][idx[l]] = 0.0;
+            if (flag) {
+                cnt++;
+            }
+        }
+        // cnt = jumlah parameter
+        String[] solusi = new String[Determinan.getLastIdxCol(matrix)];
+        for (int i = 0; i < cnt; i++) {
+            int x = 0;
+            char ch = (char) ('a' + x);
+            solusi[Determinan.getLastIdxRow(matrix) - (x++)] = ch + "";
+        }
+
+        for (int i = Determinan.getLastIdxRow(matrix) - cnt; i >= 0; i--) {
+            int x = 0;
+            solusi[i] = Double.toString(matrix[i][Determinan.getLastIdxCol(matrix)]);
+            for (int j = i + 1; j <= Determinan.getLastIdxCol(matrix) - 1; j++) {
+                if (cnt > 0) {
+                    if (j > (Determinan.getLastIdxCol(matrix) - 1 - cnt)) {
+                        solusi[i] += "-" + Double.toString(matrix[i][j]) + solusi[j];
+                    } else {
+                        solusi[i] += "-" + Double.toString(matrix[i][j]);
                     }
                 }
+
             }
         }
-        return sa;
-    }
-}
 
-class inkstr {
-    public double pengali;
-    public String var;
-
-    public static inkstr kalivar(inkstr x, int a) {
-        inkstr hasil = x;
-        hasil.pengali *= a;
-        return hasil;
-    }
-
-    public static void printvar(inkstr x) {
-        if (x.pengali != 0) {
-            System.out.println(x.pengali + x.var);
+        for (int i = 0; i < 3; i++) {
+            System.out.println(solusi[i]);
         }
-    }
-
-    public String getVar() {
-        return var;
-    }
-
-    public double getPengali() {
-        return pengali;
-    }
-}
-
-class solusi {
-    public inkstr stt;
-    public double teger;
-
-    public inkstr getStt() {
-        return stt;
-    }
-
-    public double getTeger() {
-        return teger;
-    }
-
-    public void printsolusi(solusi sa) {
-        System.out.print(sa.teger + " ");
-        inkstr.printvar(sa.getStt());
-    }
-
-    public solusi kaliso(solusi sa, int a) {
-        solusi hasil = sa;
-        hasil.teger *= a;
-        hasil.stt = inkstr.kalivar(hasil.getStt(), a);
-        return hasil;
     }
 }
