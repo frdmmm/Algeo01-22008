@@ -222,13 +222,18 @@ public class Matrix {
 
     public static void solusi(double[][] matrix) {
         String[] solusi = new String[Determinan.getLastIdxCol(matrix)]; 
+        boolean flag;
+        boolean noSolution = false;
         for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++){
+            flag = true;
             for (int j = i; j < Determinan.getLastIdxCol(matrix); j++){
+                if (matrix[i][j] != 0) flag = false;
                 if (matrix[i][j] == 1){
                     solusi[j] = Double.toString(matrix[i][Determinan.getLastIdxCol(matrix)]);
                     break;
                 }
             }
+            if (flag && matrix[i][Determinan.getLastIdxCol(matrix)] != 0) noSolution = true;
         }
 
         int idx = 0;
@@ -273,10 +278,17 @@ public class Matrix {
             }
         }
         // print sol
-        for (int i = 0; i < solusi.length; i++){
-            System.out.print("x" + (i + 1) + " = ");
-            System.out.println(solusi[i]);
+        if (noSolution){
+            System.out.println("Solusi tidak ada.");
         }
+        else{
+            for (int i = 0; i < solusi.length; i++){
+                System.out.print("x" + (i + 1) + " = ");
+                System.out.println(solusi[i]);
+            }
+        }
+
+
     }
 
     public static String multString(String str, double val){ // belum selesai
