@@ -1,40 +1,47 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public double[][] mat;
+
+    public void runMenu() {
         Scanner scanner = new Scanner(System.in);
-        int pilih;
-        boolean lanjut = true;
+        int choice;
 
-        while (lanjut) {
-            MainMenu();
-            pilih = scanner.nextInt();
+        while (true) {
+            displayMenu();
+            choice = scanner.nextInt();
 
-            switch (pilih) {
+            switch (choice) {
                 case 1:
-                    handleSubMenu();
+                    runSubMenu();
                     break;
                 case 2:
+                    subsubmenu();
                     break;
                 case 3:
+                    subsubmenu();
                     break;
                 case 4:
+                    subsubmenu();
                     break;
                 case 5:
+                    subsubmenu();
                     break;
                 case 6:
+                    subsubmenu();
                     break;
                 case 7:
-                    lanjut = false;
-                    break;
+                    System.out.println("Exiting the program.");
+                    return;
                 default:
-                    System.out.println("Pilihan invalid. Ulangi");
+                    System.out.println("Invalid. Ulangi");
+                    break;
             }
         }
     }
 
-    public static void MainMenu() {
-        System.out.println("MENU:");
+    private void displayMenu() {
+        System.out.println("MENU");
         System.out.println("1. Sistem Persamaan Linier");
         System.out.println("2. Determinan");
         System.out.println("3. Matriks Balikan");
@@ -42,13 +49,14 @@ public class Main {
         System.out.println("5. Interpolasi Bicubic Spline");
         System.out.println("6. Regresi Linier Berganda");
         System.out.println("7. Keluar");
+        System.out.print("Masukkan pilihan: ");
     }
 
-    public static void handleSubMenu() {
+    private void runSubMenu() {
         Scanner scanner = new Scanner(System.in);
         int subChoice;
-        boolean lansub = true;
-        while (lansub) {
+
+        while (true) {
             displaySubMenu();
             subChoice = scanner.nextInt();
 
@@ -62,46 +70,52 @@ public class Main {
                 case 4:
                     break;
                 case 5:
-                    lansub = false;
+                    return;
                 default:
-                    System.out.println("Invalid. Ulangi.");
+                    System.out.println("Invalid. Ulangi");
+                    break;
             }
         }
     }
 
-    public static void handlesubsubmenu() {
-        Scanner scanner = new Scanner(System.in);
-        int subChoice;
-        boolean lansub = true;
-        while (lansub) {
-            displaysubsubmenu();
-            subChoice = scanner.nextInt();
-
-            switch (subChoice) {
-                case 1:
-                    double[][] mat = Matrix.readmatrix();
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    lansub = false;
-                default:
-                    System.out.println("Invalid. Ulangi.");
-            }
-        }
-    }
-
-    public static void displaysubsubmenu() {
-        System.out.println("1. Input user");
-        System.out.println("2. Input txt");
-        System.out.println("3. Keluar");
-    }
-
-    public static void displaySubMenu() {
-        System.out.println("1. Metode eliminasi Gauss");
+    private void displaySubMenu() {
+        System.out.println("SPL:");
+        System.out.println("1. Metode Eliminasi Gauss");
         System.out.println("2. Metode eliminasi Gauss-Jordan");
         System.out.println("3. Metode matriks balikan");
         System.out.println("4. Kaidah Cramer");
-        System.out.println("5. Keluar");
+        System.out.println("5. Back");
+        System.out.print("Pilihan: ");
+    }
+
+    public void subsubmenu() {
+        Scanner scanner = new Scanner(System.in);
+        int subsubChoice;
+
+        while (true) {
+            System.out.println("Metoda Input:");
+            System.out.println("1. Input User");
+            System.out.println("2. Input txt");
+            subsubChoice = scanner.nextInt();
+
+            switch (subsubChoice) {
+                case 1:
+                    mat = Matrix.readmatrix();
+                    break;
+                case 2:
+                    mat = Matrix.readtxtmat();
+                    break;
+                case 3:
+                    return;
+                default:
+                    System.out.println("Invalid. Ulangi");
+                    break;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Main algeo = new Main();
+        algeo.runMenu();
     }
 }
