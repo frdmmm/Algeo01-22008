@@ -1,5 +1,6 @@
 package test;
 import java.util.Scanner;
+import java.util.HashMap;
 
 // Determinan kofaktor, determinan balikan baris, balikan
 public class Determinan {
@@ -13,7 +14,7 @@ public class Determinan {
         Scanner input = new Scanner(System.in);
         for (int row = 0; row <= getLastIdxRow(matrix); row++){
             for (int col = 0; col <= getLastIdxCol(matrix); col++){
-                matrix[row][col] = input.nextInt();
+                matrix[row][col] = input.nextDouble();
             }
         }
     }
@@ -116,7 +117,6 @@ public class Determinan {
             // matrix n x n (n >= 3)
             for (int i = 0; i <= getLastIdxRow(matrix); i++){
                 for (int j = 0; j <= getLastIdxCol(matrix); j++){
-                    printMatrix(adjoin);
                     adjoin[i][j] = (plusMin(i, j) * determinanKofaktor(cofactor(matrix, i, j))) / det;
                 }
             }
@@ -166,19 +166,79 @@ public class Determinan {
             det2 = determinanKofaktor(kr);
             out[nSol++] = (det2/det1);
         }
-        // udah: satu solusi, banyak solusi, 
-        // belum: tidak ada solusi
         return out;
     } 
-    
+
     /*public static void main(String[] args){
         double[][] matrix = new double[3][4];
         readMatrix(matrix);
-        //System.out.println(determinanKofaktor(matrix));
-        double[] out = kramer(matrix);
-        for (int i = 0; i < out.length; i++){
-            System.out.println(out[i]);
-        } 
+        
+        String[] solusi = new String[getLastIdxCol(matrix)]; 
+        for (int i = 0; i <= getLastIdxRow(matrix); i++){
+            for (int j = i; j < getLastIdxCol(matrix); j++){
+                if (matrix[i][j] == 1){
+                    solusi[j] = Double.toString(matrix[i][getLastIdxCol(matrix)]);
+                    break;
+                }
+            }
+        }
 
+        int idx = 0;
+        for (int i = 0; i < solusi.length; i++){
+            char ch = (char) ('a' + idx);
+            if (solusi[i] == null){
+                solusi[i] = ch + "";
+                idx++;
+            }
+        }
+
+        HashMap<Integer, Double> hm = new HashMap<>();
+        for (int i = getLastIdxRow(matrix); i >= 0; i--){
+            for (int j = i; j < getLastIdxCol(matrix); j++){
+                if ((matrix[i][j] == 1) && (j == getLastIdxCol(matrix) - 1)){
+                    hm.put(j, matrix[i][j + 1]);
+                }
+                else if ((matrix[i][j] == 1) && (j != getLastIdxCol(matrix) - 1)){
+                    double tempI = matrix[i][getLastIdxCol(matrix)];
+                    String tempS = "";
+                    for (int k = j + 1; k < getLastIdxCol(matrix); k++){
+                        if (hm.get(k) == null){
+                            if  (matrix[i][k] != 0){
+                                tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + "); 
+                                tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] * -1)) + "(" + solusi[k] + ")";
+                            }
+                        }
+                        else{
+                            tempI -= matrix[i][k] * hm.get(k);
+                        }
+                    }
+                    
+                    if (idx == 0) hm.put(j, tempI);
+                    
+                    tempS = tempS.trim();
+                    if (tempI == 0){
+                        solusi[j] = tempS;
+                    }
+                    else{
+                        solusi[j] = Double.toString(tempI) + " " + tempS;
+                    }
+                    break;
+                }
+            }
+        }
+
+        // print sol
+        for (int i = 0; i < solusi.length; i++){
+            System.out.print("x" + (i + 1) + " = ");
+            System.out.println(solusi[i]);
+        }
+        // 1 3 -2 0 2 0 0
+        // 0 0 1 2 0 3 1
+        // 0 0 0 0 0 1 0.3
+        // 0 0 0 0 0 0 0
+
+        // 1 1 2 4
+        // 0 1 1 2
+        // 0 0 0 0
     }*/
 }
