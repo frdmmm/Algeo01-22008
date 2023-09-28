@@ -235,7 +235,7 @@ public class Matrix {
         for (int i = 0; i < solusi.length; i++){
             char ch = (char) ('a' + idx);
             if (solusi[i] == null){
-                solusi[i] = ch + "";
+                solusi[i] = "1.0" + ch + "";
                 idx++;
             }
         }
@@ -252,17 +252,15 @@ public class Matrix {
                     for (int k = j + 1; k < Determinan.getLastIdxCol(matrix); k++){
                         if (hm.get(k) == null){
                             if  (matrix[i][k] != 0){
-                                tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + "); 
-                                tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] * -1)) + "(" + solusi[k] + ")";
+                                tempS += multString(solusi[k], -1 * matrix[i][k]);
+                                tempS = smp(tempS);
                             }
                         }
                         else{
                             tempI -= matrix[i][k] * hm.get(k);
                         }
                     }
-                    
                     if (idx == 0) hm.put(j, tempI);
-                    
                     tempS = tempS.trim();
                     if (tempI == 0){
                         solusi[j] = tempS;
@@ -281,11 +279,12 @@ public class Matrix {
         }
     }
 
-    public static String multString(String str, double val){
+    public static String multString(String str, double val){ // belum selesai
         char[] spl = str.toCharArray();
         String out = "";
         String angka = "";
-
+        //char op;
+        
         for (char c : spl){
             if (Character.isDigit(c) || c == '.'){
                 angka += c;
@@ -293,10 +292,28 @@ public class Matrix {
             else{
                 if (!angka.isEmpty()){
                     System.out.println(angka);
-                    out += Double.toString(Double.parseDouble(angka) * val);
+                    out += " " + Double.toString(Double.parseDouble(angka) * val);
                     angka = "";
                 }
                 out += c + "";
+            }
+        }
+        return out;
+    }
+
+    public static String smp(String str){
+        char[] part = str.replaceAll("\\s", "").toCharArray();
+        String out = "";
+        for (int i = 1; i < part.length; i++){
+            if (part[i] == '-' && part[i - 1] == '-'){
+                part[i] = '+';
+                part[i - 1] = ' ';
+            }
+        }
+        for (char c : part){
+            if (c != ' ' && c != '+' && c != '-') out += c;
+            else if (c == '+' || c == '-'){
+                out += " " + c + " ";
             }
         }
         return out;
