@@ -103,7 +103,9 @@ public class Main {
                     mat = Matrix.readmatrix();
                     break;
                 case 2:
-                    mat = Matrix.readtxtmat();
+                    System.out.println("Masukkan nama file:");
+                    String str = scanner.nextLine();
+                    mat = Matrix.readtxtmat(str);
                     break;
                 case 3:
                     return;

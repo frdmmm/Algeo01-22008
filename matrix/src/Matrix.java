@@ -1,9 +1,52 @@
 import java.util.Scanner;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import test.*;
 
 public class Matrix {
+    public static double[][] readtxtmat(String str) {
+        String path = str;
+
+        // Initialize a list to store the rows of the matrix
+        List<List<Double>> matrix = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] elements = line.split("\\s+");
+                List<Double> row = new ArrayList<>();
+                for (String element : elements) {
+                    row.add(Double.parseDouble(element));
+                }
+                matrix.add(row);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int Row = matrix.size();
+        int Col = matrix.get(0).size();
+        double[][] normal = new double[Row][Col];
+
+        for (int i = 0; i < Row; i++) {
+            List<Double> row = matrix.get(i);
+            normal[i] = new double[Col];
+
+            for (int j = 0; j < Col; j++) {
+                normal[i][j] = row.get(j);
+            }
+        }
+        return normal;
+
+    }
+
     public static void main(String[] args) {
+        double[][] ma = readmatrix();
+        echelon(ma);
+        printmatrix(ma);
+        solusi(ma);
     }
 
     public static double[][] readmatrix() {
@@ -199,7 +242,7 @@ public class Matrix {
             }
         }
         // cnt = jumlah parameter
-        String[] solusi = new String[Determinan.getLastIdxRow(matrix) + 1];
+        String[] solusi = new String[Determinan.getLastIdxCol(matrix)];
         for (int i = 0; i < cnt; i++) {
             int x = 0;
             char ch = (char) ('a' + x);
