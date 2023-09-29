@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 public class Matrix {
 
@@ -43,6 +45,25 @@ public class Matrix {
 
     }
 
+    public static void writetxtmat(String namafile, double[][] mat) {
+        try (BufferedWriter bf = new BufferedWriter(new FileWriter(namafile))) {
+            for (int i = 0; i < mat.length; i++) {
+                for (int j = 0; j < mat[i].length; j++) {
+                    if (j == mat[i].length - 1) {
+                        bf.write(mat[i][j] + "");
+                    } else {
+                        bf.write(mat[i][j] + ",");
+                    }
+                }
+                bf.newLine();
+            }
+            bf.flush();
+            bf.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         double[][] ma = readmatrix();
     }
@@ -53,6 +74,18 @@ public class Matrix {
         int n = scanner.nextInt();
         double[][] mat = new double[m][n];
         for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                mat[i][j] = scanner.nextDouble();
+            }
+        }
+        return mat;
+    }
+
+    public static double[][] readmatrix1() {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        double[][] mat = new double[n][n];
+        for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 mat[i][j] = scanner.nextDouble();
             }
