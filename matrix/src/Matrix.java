@@ -3,8 +3,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import test.*;
 
 public class Matrix {
     public static double[][] readtxtmat(String str) {
@@ -44,9 +44,6 @@ public class Matrix {
 
     public static void main(String[] args) {
         double[][] ma = readmatrix();
-        echelon(ma);
-        printmatrix(ma);
-        solusi(ma);
     }
 
     public static double[][] readmatrix() {
@@ -220,52 +217,140 @@ public class Matrix {
     }
 
     public static void solusi(double[][] matrix) {
-        /*
-         * matrix = 1 1 2 4
-         * 0 1 1 2
-         * 0 0 0 0
-         */
-
-        // hitung baris yang 0 semua
-        int cnt = 0;
+        String[] solusi = new String[Determinan.getLastIdxCol(matrix)]; 
         boolean flag;
-        for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++) {
+        boolean noSolution = false;
+        for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++){
             flag = true;
-            for (int j = 0; j <= Determinan.getLastIdxRow(matrix); j++) {
-                if (matrix[i][j] != 0) {
-                    flag = false;
-                    continue; // skip baris
+            for (int j = i; j < Determinan.getLastIdxCol(matrix); j++){
+                if (matrix[i][j] != 0) flag = false;
+                if (matrix[i][j] == 1){
+                    solusi[j] = Double.toString(matrix[i][Determinan.getLastIdxCol(matrix)]);
+                    break;
                 }
             }
-            if (flag) {
-                cnt++;
-            }
-        }
-        // cnt = jumlah parameter
-        String[] solusi = new String[Determinan.getLastIdxCol(matrix)];
-        for (int i = 0; i < cnt; i++) {
-            int x = 0;
-            char ch = (char) ('a' + x);
-            solusi[Determinan.getLastIdxRow(matrix) - (x++)] = ch + "";
+            if (flag && matrix[i][Determinan.getLastIdxCol(matrix)] != 0) noSolution = true;
         }
 
-        for (int i = Determinan.getLastIdxRow(matrix) - cnt; i >= 0; i--) {
-            int x = 0;
-            solusi[i] = Double.toString(matrix[i][Determinan.getLastIdxCol(matrix)]);
-            for (int j = i + 1; j <= Determinan.getLastIdxCol(matrix) - 1; j++) {
-                if (cnt > 0) {
-                    if (j > (Determinan.getLastIdxCol(matrix) - 1 - cnt)) {
-                        solusi[i] += "-" + Double.toString(matrix[i][j]) + solusi[j];
-                    } else {
-                        solusi[i] += "-" + Double.toString(matrix[i][j]);
+        int idx = 0;
+        for (int i = 0; i < solusi.length; i++){
+            char ch = (char) ('a' + idx);
+            if (solusi[i] == null){
+                solusi[i] = "1.0" + ch + "";
+                idx++;
+            }
+        }
+
+        HashMap<Integer, Double> hm = new HashMap<>();
+        for (int i = Determinan.getLastIdxRow(matrix); i >= 0; i--){
+            for (int j = i; j < Determinan.getLastIdxCol(matrix); j++){
+                if ((matrix[i][j] == 1) && (j == Determinan.getLastIdxCol(matrix) - 1)){
+                    hm.put(j, matrix[i][j + 1]);
+                }
+                else if ((matrix[i][j] == 1) && (j != Determinan.getLastIdxCol(matrix) - 1)){
+                    double tempI = matrix[i][Determinan.getLastIdxCol(matrix)];
+                    String tempS = "";
+                    for (int k = j + 1; k < Determinan.getLastIdxCol(matrix); k++){
+                        if (hm.get(k) == null){
+                            if  (matrix[i][k] != 0){
+                                /*tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + "); 
+                                tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] * -1)) + "(" + solusi[k] + ")";*/
+                                tempS += " " + multString(solusi[k], -1 * matrix[i][k]);
+                                tempS = smp(tempS);
+                            }
+                        }
+                        else{
+                            tempI -= matrix[i][k] * hm.get(k);
+                        }
                     }
+                    if (idx == 0) hm.put(j, tempI);
+                    if (tempI == 0){
+                        if (tempS == ""){
+                            solusi[j] = "0";
+                        }
+                        else{
+                            solusi[j] = tempS;
+                        }
+                    }
+                    else{
+                        solusi[j] = Double.toString(tempI) + tempS;
+                    }
+                    break;
+                }
+            }
+        }
+        // print sol
+        if (noSolution){
+            System.out.println("Solusi tidak ada.");
+        }
+        else{
+            for (int i = 0; i < solusi.length; i++){
+                System.out.print("x" + (i + 1) + " = ");
+                System.out.println(solusi[i].trim());
+            }
+        }
+
+
+    }
+
+    public static String multString(String str, double val){ // belum selesai
+        char[] spl = str.trim().toCharArray();
+        String out = "";
+        String angka = "";
+        
+        for (char c : spl){
+            if (Character.isDigit(c) || c == '.'){
+                angka += c;
+            }
+            else{
+                if (!angka.isEmpty()){
+                    out += Double.toString(Double.parseDouble(angka) * val);
+                    angka = "";
+                }
+                out += c + "";
+            }
+        }
+        return out;
+    }
+
+    public static String smp(String str){
+        char[] part = str.trim().replaceAll("\\s", "+").toCharArray();
+        for (int i = 1; i < part.length - 1; i++){
+            if (part[i] == '+'){
+                if (part[i - 1] == '-' || part[i - 1] == '-' || (!Character.isDigit(part[i - 1]) && !Character.isLetter(part[i - 1]) && !(part[i - 1] == ' ')) || (!Character.isDigit(part[i + 1]) && !Character.isLetter(part[i + 1]) && !(part[i + 1] == ' '))){
+                    part[i] = ' ';
+                }
+                if (part[i - 1] == '+' || part[i - 1] == '+'){
+                    part[i] = ' ';
                 }
 
             }
         }
-
-        for (int i = 0; i < 3; i++) {
-            System.out.println(solusi[i]);
+        String out = new String(part);
+        part = out.replaceAll("\\s", "").toCharArray();
+        out = "";
+        for (int i = 1; i < part.length; i++){
+            if (part[i] == '-' && part[i - 1] == '-'){
+                part[i] = '+';
+                part[i - 1] = ' ';
+            }
         }
-    }
+        for (char c : part){
+            if (c != ' ' && c != '+' && c != '-') out += c;
+            else if (c == '+' || c == '-'){
+                out += " " + c + " ";
+            }
+        }
+        return out;
+
+        // 1 3 -2 0 2 0 0
+        // 2 6 -5 -2 4 -3 -1 
+        // 0 0 5 10 0 15 5
+        // 2 6 0 8 4 18 6
+        /* 1 3 -2 0 2 0 0
+         * 0 0 1 2 0 3 1
+         * 0 0 0 0 0 1 0.33
+         * 0 0 0 0 0 0 0 
+         */
+        }
 }

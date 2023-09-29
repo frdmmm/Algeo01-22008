@@ -1,5 +1,6 @@
-package test;
+
 import java.util.Scanner;
+import java.util.HashMap;
 
 // Determinan kofaktor, determinan balikan baris, balikan
 public class Determinan {
@@ -13,7 +14,7 @@ public class Determinan {
         Scanner input = new Scanner(System.in);
         for (int row = 0; row <= getLastIdxRow(matrix); row++){
             for (int col = 0; col <= getLastIdxCol(matrix); col++){
-                matrix[row][col] = input.nextInt();
+                matrix[row][col] = input.nextDouble();
             }
         }
     }
@@ -116,7 +117,6 @@ public class Determinan {
             // matrix n x n (n >= 3)
             for (int i = 0; i <= getLastIdxRow(matrix); i++){
                 for (int j = 0; j <= getLastIdxCol(matrix); j++){
-                    printMatrix(adjoin);
                     adjoin[i][j] = (plusMin(i, j) * determinanKofaktor(cofactor(matrix, i, j))) / det;
                 }
             }
@@ -128,7 +128,6 @@ public class Determinan {
     }
 
     // Kramer
-
     public static double[] kramer(double[][] matrix){
         int col = 0;
         int nSol = 0;
@@ -166,19 +165,6 @@ public class Determinan {
             det2 = determinanKofaktor(kr);
             out[nSol++] = (det2/det1);
         }
-        // udah: satu solusi, banyak solusi, 
-        // belum: tidak ada solusi
         return out;
     } 
-    
-    /*public static void main(String[] args){
-        double[][] matrix = new double[3][4];
-        readMatrix(matrix);
-        //System.out.println(determinanKofaktor(matrix));
-        double[] out = kramer(matrix);
-        for (int i = 0; i < out.length; i++){
-            System.out.println(out[i]);
-        } 
-
-    }*/
 }
