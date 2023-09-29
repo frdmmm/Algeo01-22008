@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Matrix {
+
     public static double[][] readtxtmat(String str) {
         String path = str;
 
@@ -217,62 +218,64 @@ public class Matrix {
     }
 
     public static void solusi(double[][] matrix) {
-        String[] solusi = new String[Determinan.getLastIdxCol(matrix)]; 
+        String[] solusi = new String[Determinan.getLastIdxCol(matrix)];
         boolean flag;
         boolean noSolution = false;
-        for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++){
+        for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++) {
             flag = true;
-            for (int j = i; j < Determinan.getLastIdxCol(matrix); j++){
-                if (matrix[i][j] != 0) flag = false;
-                if (matrix[i][j] == 1){
+            for (int j = i; j < Determinan.getLastIdxCol(matrix); j++) {
+                if (matrix[i][j] != 0)
+                    flag = false;
+                if (matrix[i][j] == 1) {
                     solusi[j] = Double.toString(matrix[i][Determinan.getLastIdxCol(matrix)]);
                     break;
                 }
             }
-            if (flag && matrix[i][Determinan.getLastIdxCol(matrix)] != 0) noSolution = true;
+            if (flag && matrix[i][Determinan.getLastIdxCol(matrix)] != 0)
+                noSolution = true;
         }
 
         int idx = 0;
-        for (int i = 0; i < solusi.length; i++){
+        for (int i = 0; i < solusi.length; i++) {
             char ch = (char) ('a' + idx);
-            if (solusi[i] == null){
+            if (solusi[i] == null) {
                 solusi[i] = "1.0" + ch + "";
                 idx++;
             }
         }
 
         HashMap<Integer, Double> hm = new HashMap<>();
-        for (int i = Determinan.getLastIdxRow(matrix); i >= 0; i--){
-            for (int j = i; j < Determinan.getLastIdxCol(matrix); j++){
-                if ((matrix[i][j] == 1) && (j == Determinan.getLastIdxCol(matrix) - 1)){
+        for (int i = Determinan.getLastIdxRow(matrix); i >= 0; i--) {
+            for (int j = i; j < Determinan.getLastIdxCol(matrix); j++) {
+                if ((matrix[i][j] == 1) && (j == Determinan.getLastIdxCol(matrix) - 1)) {
                     hm.put(j, matrix[i][j + 1]);
-                }
-                else if ((matrix[i][j] == 1) && (j != Determinan.getLastIdxCol(matrix) - 1)){
+                } else if ((matrix[i][j] == 1) && (j != Determinan.getLastIdxCol(matrix) - 1)) {
                     double tempI = matrix[i][Determinan.getLastIdxCol(matrix)];
                     String tempS = "";
-                    for (int k = j + 1; k < Determinan.getLastIdxCol(matrix); k++){
-                        if (hm.get(k) == null){
-                            if  (matrix[i][k] != 0){
-                                /*tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + "); 
-                                tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] * -1)) + "(" + solusi[k] + ")";*/
+                    for (int k = j + 1; k < Determinan.getLastIdxCol(matrix); k++) {
+                        if (hm.get(k) == null) {
+                            if (matrix[i][k] != 0) {
+                                /*
+                                 * tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + ");
+                                 * tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] *
+                                 * -1)) + "(" + solusi[k] + ")";
+                                 */
                                 tempS += " " + multString(solusi[k], -1 * matrix[i][k]);
                                 tempS = smp(tempS);
                             }
-                        }
-                        else{
+                        } else {
                             tempI -= matrix[i][k] * hm.get(k);
                         }
                     }
-                    if (idx == 0) hm.put(j, tempI);
-                    if (tempI == 0){
-                        if (tempS == ""){
+                    if (idx == 0)
+                        hm.put(j, tempI);
+                    if (tempI == 0) {
+                        if (tempS == "") {
                             solusi[j] = "0";
-                        }
-                        else{
+                        } else {
                             solusi[j] = tempS;
                         }
-                    }
-                    else{
+                    } else {
                         solusi[j] = Double.toString(tempI) + tempS;
                     }
                     break;
@@ -280,30 +283,27 @@ public class Matrix {
             }
         }
         // print sol
-        if (noSolution){
+        if (noSolution) {
             System.out.println("Solusi tidak ada.");
-        }
-        else{
-            for (int i = 0; i < solusi.length; i++){
+        } else {
+            for (int i = 0; i < solusi.length; i++) {
                 System.out.print("x" + (i + 1) + " = ");
                 System.out.println(solusi[i].trim());
             }
         }
 
-
     }
 
-    public static String multString(String str, double val){ // belum selesai
+    public static String multString(String str, double val) { // belum selesai
         char[] spl = str.trim().toCharArray();
         String out = "";
         String angka = "";
-        
-        for (char c : spl){
-            if (Character.isDigit(c) || c == '.'){
+
+        for (char c : spl) {
+            if (Character.isDigit(c) || c == '.') {
                 angka += c;
-            }
-            else{
-                if (!angka.isEmpty()){
+            } else {
+                if (!angka.isEmpty()) {
                     out += Double.toString(Double.parseDouble(angka) * val);
                     angka = "";
                 }
@@ -313,14 +313,18 @@ public class Matrix {
         return out;
     }
 
-    public static String smp(String str){
+    public static String smp(String str) {
         char[] part = str.trim().replaceAll("\\s", "+").toCharArray();
-        for (int i = 1; i < part.length - 1; i++){
-            if (part[i] == '+'){
-                if (part[i - 1] == '-' || part[i - 1] == '-' || (!Character.isDigit(part[i - 1]) && !Character.isLetter(part[i - 1]) && !(part[i - 1] == ' ')) || (!Character.isDigit(part[i + 1]) && !Character.isLetter(part[i + 1]) && !(part[i + 1] == ' '))){
+        for (int i = 1; i < part.length - 1; i++) {
+            if (part[i] == '+') {
+                if (part[i - 1] == '-' || part[i - 1] == '-'
+                        || (!Character.isDigit(part[i - 1]) && !Character.isLetter(part[i - 1])
+                                && !(part[i - 1] == ' '))
+                        || (!Character.isDigit(part[i + 1]) && !Character.isLetter(part[i + 1])
+                                && !(part[i + 1] == ' '))) {
                     part[i] = ' ';
                 }
-                if (part[i - 1] == '+' || part[i - 1] == '+'){
+                if (part[i - 1] == '+' || part[i - 1] == '+') {
                     part[i] = ' ';
                 }
 
@@ -329,28 +333,30 @@ public class Matrix {
         String out = new String(part);
         part = out.replaceAll("\\s", "").toCharArray();
         out = "";
-        for (int i = 1; i < part.length; i++){
-            if (part[i] == '-' && part[i - 1] == '-'){
+        for (int i = 1; i < part.length; i++) {
+            if (part[i] == '-' && part[i - 1] == '-') {
                 part[i] = '+';
                 part[i - 1] = ' ';
             }
         }
-        for (char c : part){
-            if (c != ' ' && c != '+' && c != '-') out += c;
-            else if (c == '+' || c == '-'){
+        for (char c : part) {
+            if (c != ' ' && c != '+' && c != '-')
+                out += c;
+            else if (c == '+' || c == '-') {
                 out += " " + c + " ";
             }
         }
         return out;
 
         // 1 3 -2 0 2 0 0
-        // 2 6 -5 -2 4 -3 -1 
+        // 2 6 -5 -2 4 -3 -1
         // 0 0 5 10 0 15 5
         // 2 6 0 8 4 18 6
-        /* 1 3 -2 0 2 0 0
+        /*
+         * 1 3 -2 0 2 0 0
          * 0 0 1 2 0 3 1
          * 0 0 0 0 0 1 0.33
-         * 0 0 0 0 0 0 0 
+         * 0 0 0 0 0 0 0
          */
-        }
+    }
 }
