@@ -48,6 +48,8 @@ public class Matrix {
         echelon(ma);
         printmatrix(ma);
         solusi(ma);
+        /*String test = "1 - 2.0b";
+        System.out.println(smp(multString(test, 2)));*/
     }
 
     public static double[][] readmatrix() {
@@ -257,7 +259,9 @@ public class Matrix {
                     for (int k = j + 1; k < Determinan.getLastIdxCol(matrix); k++){
                         if (hm.get(k) == null){
                             if  (matrix[i][k] != 0){
-                                tempS += multString(solusi[k], -1 * matrix[i][k]);
+                                /*tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + "); 
+                                tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] * -1)) + "(" + solusi[k] + ")";*/
+                                tempS += " " + multString(solusi[k], -1 * matrix[i][k]);
                                 tempS = smp(tempS);
                             }
                         }
@@ -266,12 +270,16 @@ public class Matrix {
                         }
                     }
                     if (idx == 0) hm.put(j, tempI);
-                    tempS = tempS.trim();
                     if (tempI == 0){
-                        solusi[j] = tempS;
+                        if (tempS == ""){
+                            solusi[j] = "0";
+                        }
+                        else{
+                            solusi[j] = tempS;
+                        }
                     }
                     else{
-                        solusi[j] = Double.toString(tempI) + " " + tempS;
+                        solusi[j] = Double.toString(tempI) + tempS;
                     }
                     break;
                 }
@@ -284,7 +292,7 @@ public class Matrix {
         else{
             for (int i = 0; i < solusi.length; i++){
                 System.out.print("x" + (i + 1) + " = ");
-                System.out.println(solusi[i]);
+                System.out.println(solusi[i].trim());
             }
         }
 
@@ -292,10 +300,9 @@ public class Matrix {
     }
 
     public static String multString(String str, double val){ // belum selesai
-        char[] spl = str.toCharArray();
+        char[] spl = str.trim().toCharArray();
         String out = "";
         String angka = "";
-        //char op;
         
         for (char c : spl){
             if (Character.isDigit(c) || c == '.'){
@@ -303,8 +310,7 @@ public class Matrix {
             }
             else{
                 if (!angka.isEmpty()){
-                    System.out.println(angka);
-                    out += " " + Double.toString(Double.parseDouble(angka) * val);
+                    out += Double.toString(Double.parseDouble(angka) * val);
                     angka = "";
                 }
                 out += c + "";
@@ -314,8 +320,21 @@ public class Matrix {
     }
 
     public static String smp(String str){
-        char[] part = str.replaceAll("\\s", "").toCharArray();
-        String out = "";
+        char[] part = str.trim().replaceAll("\\s", "+").toCharArray();
+        for (int i = 1; i < part.length - 1; i++){
+            if (part[i] == '+'){
+                if (part[i - 1] == '-' || part[i - 1] == '-' || (!Character.isDigit(part[i - 1]) && !Character.isLetter(part[i - 1]) && !(part[i - 1] == ' ')) || (!Character.isDigit(part[i + 1]) && !Character.isLetter(part[i + 1]) && !(part[i + 1] == ' '))){
+                    part[i] = ' ';
+                }
+                if (part[i - 1] == '+' || part[i - 1] == '+'){
+                    part[i] = ' ';
+                }
+
+            }
+        }
+        String out = new String(part);
+        part = out.replaceAll("\\s", "").toCharArray();
+        out = "";
         for (int i = 1; i < part.length; i++){
             if (part[i] == '-' && part[i - 1] == '-'){
                 part[i] = '+';
@@ -329,5 +348,15 @@ public class Matrix {
             }
         }
         return out;
+
+        // 1 3 -2 0 2 0 0
+        // 2 6 -5 -2 4 -3 -1 
+        // 0 0 5 10 0 15 5
+        // 2 6 0 8 4 18 6
+        /* 1 3 -2 0 2 0 0
+         * 0 0 1 2 0 3 1
+         * 0 0 0 0 0 1 0.33
+         * 0 0 0 0 0 0 0 
+         */
     }
 }
