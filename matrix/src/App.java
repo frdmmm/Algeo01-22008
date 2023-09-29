@@ -1,5 +1,3 @@
-import test.Determinan;
-
 public class App {
     public static void main(String args[]) {
         // tes

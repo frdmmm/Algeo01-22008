@@ -1,4 +1,4 @@
-package test;
+
 import java.util.Scanner;
 import java.util.HashMap;
 

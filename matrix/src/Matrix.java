@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import test.*;
 
 public class Matrix {
     public static double[][] readtxtmat(String str) {
@@ -45,11 +44,6 @@ public class Matrix {
 
     public static void main(String[] args) {
         double[][] ma = readmatrix();
-        echelon(ma);
-        printmatrix(ma);
-        solusi(ma);
-        /*String test = "1 - 2.0b";
-        System.out.println(smp(multString(test, 2)));*/
     }
 
     public static double[][] readmatrix() {
@@ -358,5 +352,5 @@ public class Matrix {
          * 0 0 0 0 0 1 0.33
          * 0 0 0 0 0 0 0 
          */
-    }
+        }
 }
