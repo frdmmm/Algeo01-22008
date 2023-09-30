@@ -317,7 +317,7 @@ public class Matrix {
             }
         }
         if (noSolution){
-            String[] noSol = {null};
+            String[] noSol = {"Solusi tidak ada."};
             return noSol;
         }   
         else{
