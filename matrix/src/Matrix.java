@@ -250,7 +250,7 @@ public class Matrix {
         return hasil;
     }
 
-    public static void solusi(double[][] matrix) {
+    public static void solusi(double[][] matrix, boolean print, boolean txt, String namafile) {
         String[] solusi = new String[Determinan.getLastIdxCol(matrix)];
         boolean flag;
         boolean noSolution = false;
@@ -316,13 +316,35 @@ public class Matrix {
             }
         }
         // print sol
-        if (noSolution) {
-            System.out.println("Solusi tidak ada.");
-        } else {
-            for (int i = 0; i < solusi.length; i++) {
-                System.out.print("x" + (i + 1) + " = ");
-                System.out.println(solusi[i].trim());
+
+        if (print) {
+            if (noSolution) {
+                System.out.println("Solusi tidak ada.");
+            } else {
+                for (int i = 0; i < solusi.length; i++) {
+                    System.out.print("x" + (i + 1) + " = ");
+                    System.out.println(solusi[i].trim());
+                }
             }
+        }
+        if (txt) {
+            try (BufferedWriter bf = new BufferedWriter(new FileWriter(namafile))) {
+                if (noSolution) {
+                    bf.write("Solusi tidak ada");
+                    bf.newLine();
+                } else {
+                    for (int i = 0; i < solusi.length; i++) {
+                        bf.write("x" + (i + 1) + " = ");
+                        bf.write(solusi[i].trim());
+                        bf.newLine();
+                    }
+                }
+                bf.flush();
+                bf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }
@@ -391,5 +413,49 @@ public class Matrix {
          * 0 0 0 0 0 1 0.33
          * 0 0 0 0 0 0 0
          */
+    }
+
+    public static String splbalikan(double[][] mat) {
+        String hasil = "";
+        double[][] hasilkali;
+        double[][] awal = new double[mat.length][mat[0].length - 1];
+        double[][] b = new double[mat.length][1];
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[0].length - 1; j++) {
+                awal[i][j] = mat[i][j];
+            }
+            b[i][0] = mat[i][mat[0].length - 1];
+        }
+        if (Determinan.determinanKofaktor(awal) == 0) {
+            hasil = "Matriks tidak memiliki balikan";
+            return hasil;
+        } else {
+            awal = Determinan.balikan(awal);
+            hasilkali = kalimatri(awal, b);
+            for (int i = 0; i < hasilkali.length; i++) {
+                for (int j = 0; j < hasilkali[0].length; j++) {
+                    hasil += "x" + (i + 1) + " = " + hasilkali[i][j];
+                }
+                hasil += " ";
+            }
+            return hasil;
+        }
+
+    }
+
+    public static double[][] kalimatri(double[][] m1, double[][] m2) {
+        double[][] hasil;
+        int rowm1 = m1.length;
+        int colm2 = m2[0].length;
+        hasil = new double[rowm1][colm2];
+        for (int i = 0; i < rowm1; i++) {
+            for (int j = 0; j < colm2; j++) {
+                hasil[i][j] = 0;
+                for (int k = 0; k < m1[0].length; k++) {
+                    hasil[i][j] += (m1[i][k] * m2[k][j]);
+                }
+            }
+        }
+        return hasil;
     }
 }

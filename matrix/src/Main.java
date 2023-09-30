@@ -27,7 +27,29 @@ public class Main {
                     subsubmenu();
                     determinan = false;
                     printortxt();
-                    double has = Determinan.determinanKofaktor(mat);
+                    boolean metdete = true;
+                    System.out.println("Pilih Metode Determinan:");
+                    System.out.println("1. Determinan Kofaktor");
+                    System.out.println("2. Determinan Adjoin");
+                    int pi = scan.nextInt();
+                    switch (pi) {
+                        case 1:
+                            metdete = true;
+                            break;
+                        case 2:
+                            metdete = false;
+                            break;
+                        case 3:
+                            metdete = true;
+                            System.out.println("Pilihan invalid. Akan dipilih metode kofaktor");
+                            break;
+                    }
+                    double has;
+                    if (metdete) {
+                        has = Determinan.determinanKofaktor(mat);
+                    } else {
+                        has = Determinan.determinanReduksiBaris(mat);
+                    }
                     if (print) {
                         System.out.println("Determinan matrix adalah " + has);
                     }
@@ -43,12 +65,11 @@ public class Main {
                             e.printStackTrace();
                         }
                     }
-                    // masukkan dalam file(pengingat)
                     break;
                 case 3:
                     subsubmenu();
-                    printortxt();
                     if (Determinan.determinanKofaktor(mat) != 0) {
+                        printortxt();
                         mat = Determinan.balikan(mat);
                         if (print) {
                             Matrix.printmatrix(mat);
@@ -99,7 +120,7 @@ public class Main {
 
     private void runSubMenu() {
         int subChoice;
-
+        String nama = "";
         while (true) {
             displaySubMenu();
             subChoice = scan.nextInt();
@@ -109,16 +130,74 @@ public class Main {
                     subsubmenu();
                     printortxt();
                     Matrix.echelon(mat);
-                    Matrix.solusi(mat);
+                    if (txt) {
+                        nama = scan.next();
+                        if (print) {
+                            Matrix.solusi(mat, true, true, nama);
+                        } else {
+                            Matrix.solusi(mat, false, true, nama);
+                        }
+                    }
+                    if (!txt && print) {
+                        Matrix.solusi(mat, true, false, nama);
+                    }
                     return;
                 case 2:
                     subsubmenu();
+                    printortxt();
+                    Matrix.reducechelon(mat);
+                    if (txt) {
+                        nama = scan.next();
+                        if (print) {
+                            Matrix.solusi(mat, true, true, nama);
+                        } else {
+                            Matrix.solusi(mat, false, true, nama);
+                        }
+                    }
+                    if (!txt && print) {
+                        Matrix.solusi(mat, true, false, nama);
+                    }
                     return;
                 case 3:
                     subsubmenu();
+                    printortxt();
+                    String hasil = Matrix.splbalikan(mat);
+                    if (txt) {
+                        nama = scan.next();
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama, true))) {
+                            bf.write(hasil);
+                            bf.flush();
+                            bf.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (print) {
+                        System.out.println(hasil);
+                    }
                     return;
                 case 4:
                     subsubmenu();
+                    double[] ha = Determinan.kramer(mat);
+                    if (print) {
+                        for (int i = 0; i < ha.length; i++) {
+                            System.out.println("x" + (i + 1) + " = " + ha[i]);
+                        }
+                    }
+                    if (txt) {
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama, true))) {
+                            for (int i = 0; i < ha.length; i++) {
+                                bf.write("x" + (i + 1) + " = " + ha[i]);
+                                bf.newLine();
+                            }
+                            bf.flush();
+                            bf.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return;
+                case 5:
                     return;
                 default:
                     System.out.println("Invalid. Ulangi");
@@ -178,9 +257,11 @@ public class Main {
             switch (pout) {
                 case 1:
                     print = true;
+                    txt = false;
                     return;
                 case 2:
                     txt = true;
+                    print = false;
                     return;
                 case 3:
                     print = true;
