@@ -31,7 +31,9 @@ public class interpolasi {
                 }
             }
         }
-        Matrix.printmatrix(matrix);
+        Matrix.echelon(matrix);
+        Matrix.solusi(matrix, true, false, "a.txt");     
+        // luaran berbentuk f(x) = a1 + a2x + a3x^2 + ...  
     }
 
 }

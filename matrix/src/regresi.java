@@ -49,5 +49,6 @@ public class regresi {
         }
         Matrix.echelon(tabelRegresi);
         Matrix.solusi(tabelRegresi, true, false, "test.txt");
+        // luaran bentuk f(x) = b1 + b2x + b3x2 + ...
     }
 }
