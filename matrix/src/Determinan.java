@@ -1,6 +1,5 @@
 
 import java.util.Scanner;
-import java.util.HashMap;
 
 // Determinan kofaktor, determinan balikan baris, balikan
 public class Determinan {

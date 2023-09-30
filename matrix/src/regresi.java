@@ -1,6 +1,3 @@
-
-import src.*;
-
 public class regresi {
     public static void main(String[] args){
         double[][] matrix = Matrix.readmatrix();
@@ -51,6 +48,6 @@ public class regresi {
 
         }
         Matrix.echelon(tabelRegresi);
-        Matrix.solusi(tabelRegresi);
+        Matrix.solusi(tabelRegresi, true, false, "test.txt");
     }
 }
