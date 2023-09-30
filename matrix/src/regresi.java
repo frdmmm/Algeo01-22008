@@ -50,21 +50,26 @@ public class regresi {
         Matrix.echelon(tabelRegresi);
         String[] out = Matrix.solusi(tabelRegresi);
         // luaran bentuk f(x) = b1 + b2x + b3x2 + ...
-        System.out.print("f(x) = ");
-        for (int i = 0; i < out.length; i++){
-            if (Matrix.isNumber(out[i])){
-                if (Double.parseDouble(out[i]) == 0){
-                    continue;
+        if (out[0] == "Solusi tidak ada."){
+            System.out.println(out[0]);
+        }
+        else {
+            System.out.print("f(x) = ");
+            for (int i = 0; i < out.length; i++){
+                if (Matrix.isNumber(out[i])){
+                    if (Double.parseDouble(out[i]) == 0){
+                        continue;
+                    }
                 }
-            }
 
-            if (i == 0){
-                System.out.print("(" + out[i] + ")");
+                if (i == 0){
+                    System.out.print("(" + out[i] + ")");
+                }
+                else{
+                    System.out.print("(" + out[i] + ")" + "x" + i);
+                }
+                if (i != out.length - 1) System.out.print(" + ");
             }
-            else{
-                System.out.print("(" + out[i] + ")" + "x" + i);
-            }
-            if (i != out.length - 1) System.out.print(" + ");
         }
     }
 }

@@ -34,20 +34,25 @@ public class interpolasi {
         Matrix.echelon(matrix);
         String[] out = Matrix.solusi(matrix);     
         // luaran berbentuk f(x) = a1 + a2x + a3x^2 + ...  
-        System.out.print("f(x) = ");
-        for (int i = 0; i < out.length; i++){
-            if (Matrix.isNumber(out[i])){
-                if (Double.parseDouble(out[i]) == 0){
-                    continue;
+        if (out[0] == "Solusi tidak ada."){
+            System.out.println(out[0]);
+        }
+        else {
+            System.out.print("f(x) = ");
+            for (int i = 0; i < out.length; i++){
+                if (Matrix.isNumber(out[i])){
+                    if (Double.parseDouble(out[i]) == 0){
+                        continue;
+                    }
                 }
-            }
 
-            if (i == 0){
-                System.out.print("(" + out[i] + ")");
-            } else{
-                System.out.print("(" + out[i] + ")" + "x^" + i);
+                if (i == 0){
+                    System.out.print("(" + out[i] + ")");
+                } else{
+                    System.out.print("(" + out[i] + ")" + "x^" + i);
+                }
+                if (i != out.length - 1) System.out.print(" + ");
             }
-            if (i != out.length - 1) System.out.print(" + ");
         }
     }
 
