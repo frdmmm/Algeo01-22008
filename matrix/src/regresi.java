@@ -48,7 +48,23 @@ public class regresi {
 
         }
         Matrix.echelon(tabelRegresi);
-        Matrix.solusi(tabelRegresi, true, false, "test.txt");
+        String[] out = Matrix.solusi(tabelRegresi);
         // luaran bentuk f(x) = b1 + b2x + b3x2 + ...
+        System.out.print("f(x) = ");
+        for (int i = 0; i < out.length; i++){
+            if (Matrix.isNumber(out[i])){
+                if (Double.parseDouble(out[i]) == 0){
+                    continue;
+                }
+            }
+
+            if (i == 0){
+                System.out.print("(" + out[i] + ")");
+            }
+            else{
+                System.out.print("(" + out[i] + ")" + "x" + i);
+            }
+            if (i != out.length - 1) System.out.print(" + ");
+        }
     }
 }

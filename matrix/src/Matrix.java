@@ -66,6 +66,7 @@ public class Matrix {
 
     public static void main(String[] args) {
         double[][] ma = readmatrix();
+        System.out.println("a");
     }
 
     public static double[][] readmatrix() {
@@ -250,7 +251,7 @@ public class Matrix {
         return hasil;
     }
 
-    public static void solusi(double[][] matrix, boolean print, boolean txt, String namafile) {
+    public static String[] solusi(double[][] matrix) {
         String[] solusi = new String[Determinan.getLastIdxCol(matrix)];
         boolean flag;
         boolean noSolution = false;
@@ -315,9 +316,10 @@ public class Matrix {
                 }
             }
         }
+        return solusi;
         // print sol
 
-        if (print) {
+        /*if (print) {
             if (noSolution) {
                 System.out.println("Solusi tidak ada.");
             } else {
@@ -345,8 +347,16 @@ public class Matrix {
                 e.printStackTrace();
             }
 
-        }
+        }*/
+    }
 
+    public static boolean isNumber(String str){
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
     }
 
     public static String multString(String str, double val) { // belum selesai
