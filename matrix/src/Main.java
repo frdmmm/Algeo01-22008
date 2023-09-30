@@ -11,11 +11,11 @@ public class Main {
     public boolean print = true;
     public boolean txt = true;
 
-    public void runMenu() {
+    public void run() {
         int choice;
 
         while (true) {
-            displayMenu();
+            Menu();
             choice = scan.nextInt();
 
             switch (choice) {
@@ -106,7 +106,7 @@ public class Main {
         }
     }
 
-    private void displayMenu() {
+    public void Menu() {
         System.out.println("MENU");
         System.out.println("1. Sistem Persamaan Linier");
         System.out.println("2. Determinan");
@@ -118,9 +118,10 @@ public class Main {
         System.out.print("Masukkan pilihan: ");
     }
 
-    private void runSubMenu() {
+    public void runSubMenu() {
         int subChoice;
         String nama = "";
+        String[] solusi;
         while (true) {
             displaySubMenu();
             subChoice = scan.nextInt();
@@ -130,32 +131,48 @@ public class Main {
                     subsubmenu();
                     printortxt();
                     Matrix.echelon(mat);
-                    if (txt) {
-                        nama = scan.next();
-                        if (print) {
-                            Matrix.solusi(mat, true, true, nama);
-                        } else {
-                            Matrix.solusi(mat, false, true, nama);
+                    solusi = Matrix.solusi(mat);
+                    if (print) {
+                        for (int i = 0; i < solusi.length; i++) {
+                            System.out.println("x" + (i + 1) + " = " + solusi[i]);
                         }
                     }
-                    if (!txt && print) {
-                        Matrix.solusi(mat, true, false, nama);
+                    if (txt) {
+                        nama = scan.next();
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama))) {
+                            for (int i = 0; i < solusi.length; i++) {
+                                bf.write("x" + (i + 1) + " = " + solusi[i]);
+                                bf.newLine();
+                            }
+                            bf.flush();
+                            bf.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     return;
                 case 2:
                     subsubmenu();
                     printortxt();
                     Matrix.reducechelon(mat);
-                    if (txt) {
-                        nama = scan.next();
-                        if (print) {
-                            Matrix.solusi(mat, true, true, nama);
-                        } else {
-                            Matrix.solusi(mat, false, true, nama);
+                    solusi = Matrix.solusi(mat);
+                    if (print) {
+                        for (int i = 0; i < solusi.length; i++) {
+                            System.out.println("x" + (i + 1) + " = " + solusi[i]);
                         }
                     }
-                    if (!txt && print) {
-                        Matrix.solusi(mat, true, false, nama);
+                    if (txt) {
+                        nama = scan.next();
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama))) {
+                            for (int i = 0; i < solusi.length; i++) {
+                                bf.write("x" + (i + 1) + " = " + solusi[i]);
+                                bf.newLine();
+                            }
+                            bf.flush();
+                            bf.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     return;
                 case 3:
@@ -164,7 +181,7 @@ public class Main {
                     String hasil = Matrix.splbalikan(mat);
                     if (txt) {
                         nama = scan.next();
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama, true))) {
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama))) {
                             bf.write(hasil);
                             bf.flush();
                             bf.close();
@@ -206,7 +223,7 @@ public class Main {
         }
     }
 
-    private void displaySubMenu() {
+    public void displaySubMenu() {
         System.out.println("SPL:");
         System.out.println("1. Metode Eliminasi Gauss");
         System.out.println("2. Metode eliminasi Gauss-Jordan");
@@ -236,7 +253,7 @@ public class Main {
                     }
                 case 2:
                     System.out.println("Masukkan nama file:");
-                    String str = scan.nextLine();
+                    String str = scan.next();
                     mat = Matrix.readtxtmat(str);
                     return;
                 default:
@@ -276,6 +293,6 @@ public class Main {
 
     public static void main(String[] args) {
         Main algeo = new Main();
-        algeo.runMenu();
+        algeo.run();
     }
 }

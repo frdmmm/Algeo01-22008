@@ -13,7 +13,6 @@ public class Matrix {
     public static double[][] readtxtmat(String str) {
         String path = str;
 
-        // Initialize a list to store the rows of the matrix
         List<List<Double>> matrix = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -62,11 +61,6 @@ public class Matrix {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        double[][] ma = readmatrix();
-        System.out.println("a");
     }
 
     public static double[][] readmatrix() {
@@ -316,51 +310,52 @@ public class Matrix {
                 }
             }
         }
-        if (noSolution){
-            String[] noSol = {"Solusi tidak ada."};
+        if (noSolution) {
+            String[] noSol = { "Solusi tidak ada." };
             return noSol;
-        }   
-        else{
+        } else {
             return solusi;
         }
         // print sol
 
-        /*if (print) {
-            if (noSolution) {
-                System.out.println("Solusi tidak ada.");
-            } else {
-                for (int i = 0; i < solusi.length; i++) {
-                    System.out.print("x" + (i + 1) + " = ");
-                    System.out.println(solusi[i].trim());
-                }
-            }
-        }
-        if (txt) {
-            try (BufferedWriter bf = new BufferedWriter(new FileWriter(namafile))) {
-                if (noSolution) {
-                    bf.write("Solusi tidak ada");
-                    bf.newLine();
-                } else {
-                    for (int i = 0; i < solusi.length; i++) {
-                        bf.write("x" + (i + 1) + " = ");
-                        bf.write(solusi[i].trim());
-                        bf.newLine();
-                    }
-                }
-                bf.flush();
-                bf.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }*/
+        /*
+         * if (print) {
+         * if (noSolution) {
+         * System.out.println("Solusi tidak ada.");
+         * } else {
+         * for (int i = 0; i < solusi.length; i++) {
+         * System.out.print("x" + (i + 1) + " = ");
+         * System.out.println(solusi[i].trim());
+         * }
+         * }
+         * }
+         * if (txt) {
+         * try (BufferedWriter bf = new BufferedWriter(new FileWriter(namafile))) {
+         * if (noSolution) {
+         * bf.write("Solusi tidak ada");
+         * bf.newLine();
+         * } else {
+         * for (int i = 0; i < solusi.length; i++) {
+         * bf.write("x" + (i + 1) + " = ");
+         * bf.write(solusi[i].trim());
+         * bf.newLine();
+         * }
+         * }
+         * bf.flush();
+         * bf.close();
+         * } catch (IOException e) {
+         * e.printStackTrace();
+         * }
+         * 
+         * }
+         */
     }
 
-    public static boolean isNumber(String str){
+    public static boolean isNumber(String str) {
         try {
             Double.parseDouble(str);
             return true;
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }
