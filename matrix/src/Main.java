@@ -138,6 +138,7 @@ public class Main {
                         }
                     }
                     if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
                         nama = scan.next();
                         try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama))) {
                             for (int i = 0; i < solusi.length; i++) {
@@ -162,6 +163,7 @@ public class Main {
                         }
                     }
                     if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
                         nama = scan.next();
                         try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama))) {
                             for (int i = 0; i < solusi.length; i++) {
@@ -180,6 +182,7 @@ public class Main {
                     printortxt();
                     String hasil = Matrix.splbalikan(mat);
                     if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
                         nama = scan.next();
                         try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama))) {
                             bf.write(hasil);
@@ -202,6 +205,8 @@ public class Main {
                         }
                     }
                     if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
+                        nama=scan.next();
                         try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama, true))) {
                             for (int i = 0; i < ha.length; i++) {
                                 bf.write("x" + (i + 1) + " = " + ha[i]);
