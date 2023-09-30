@@ -316,7 +316,13 @@ public class Matrix {
                 }
             }
         }
-        return solusi;
+        if (noSolution){
+            String[] noSol = {null};
+            return noSol;
+        }   
+        else{
+            return solusi;
+        }
         // print sol
 
         /*if (print) {
