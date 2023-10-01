@@ -25,11 +25,13 @@ public class bicubicspline {
         for (int i = 0; i < col; i++) {
             normal[i][0] = matrix.get(i);
         }
+        int n = 0;
         for (int i = col; i < matrix.size(); i++) {
-            cari[i] = matrix.get(i);
+            cari[n] = matrix.get(i);
+            n++;
         }
         double[][] bicubicbase = Matrix.readtxtmat("bicubic.txt");
-        bicubicbase = Determinan.balikan(bicubicbase);
+        bicubicbase = Matrix.inversejordan(bicubicbase);
         double[][] solusi = Matrix.kalimatri(bicubicbase, normal);
         double sum = 0;
         for (int i = 0; i < 4; i++) {

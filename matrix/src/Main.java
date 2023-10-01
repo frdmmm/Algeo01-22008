@@ -95,8 +95,7 @@ public class Main {
                     if (txt) {
                         System.out.println("Masukkan nama file (contoh:File.txt)");
                         String nama = scan.next();
-                        Matrix.writetxtmat(nama, mat);
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama, true))) {
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama))) {
                             bf.write("" + hasilinter);
                             bf.flush();
                             bf.close();
@@ -116,8 +115,7 @@ public class Main {
                     if (txt) {
                         System.out.println("Masukkan nama file (contoh:File.txt)");
                         String nama = scan.next();
-                        Matrix.writetxtmat(nama, mat);
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama, true))) {
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama))) {
                             bf.write("" + hasil);
                             bf.flush();
                             bf.close();
@@ -136,8 +134,7 @@ public class Main {
                     if (txt) {
                         System.out.println("Masukkan nama file (contoh:File.txt)");
                         String nama = scan.next();
-                        Matrix.writetxtmat(nama, mat);
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama, true))) {
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama))) {
                             bf.write("" + hasilreg);
                             bf.flush();
                             bf.close();
