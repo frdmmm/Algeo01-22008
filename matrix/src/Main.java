@@ -57,7 +57,7 @@ public class Main {
                         System.out.println("Masukkan nama file (contoh:File.txt)");
                         String nama = scan.next();
                         Matrix.writetxtmat(nama, mat);
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama, true))) {
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama, true))) {
                             bf.write("Determinan nya adalah " + has);
                             bf.flush();
                             bf.close();
@@ -88,8 +88,25 @@ public class Main {
                     printortxt();
                     break;
                 case 5:
-                    subsubmenu();
+                    System.out.println("Masukkan nama file:");
+                    String str = scan.next();
                     printortxt();
+                    double hasil = bicubicspline.bisolusi(str);
+                    if (print) {
+                        System.out.println("" + hasil);
+                    }
+                    if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
+                        String nama = scan.next();
+                        Matrix.writetxtmat(nama, mat);
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama, true))) {
+                            bf.write("" + hasil);
+                            bf.flush();
+                            bf.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
                 case 6:
                     subsubmenu();
@@ -138,8 +155,9 @@ public class Main {
                         }
                     }
                     if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
                         nama = scan.next();
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama))) {
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama))) {
                             for (int i = 0; i < solusi.length; i++) {
                                 bf.write("x" + (i + 1) + " = " + solusi[i]);
                                 bf.newLine();
@@ -162,8 +180,9 @@ public class Main {
                         }
                     }
                     if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
                         nama = scan.next();
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama))) {
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama))) {
                             for (int i = 0; i < solusi.length; i++) {
                                 bf.write("x" + (i + 1) + " = " + solusi[i]);
                                 bf.newLine();
@@ -180,8 +199,9 @@ public class Main {
                     printortxt();
                     String hasil = Matrix.splbalikan(mat);
                     if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
                         nama = scan.next();
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama))) {
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama))) {
                             bf.write(hasil);
                             bf.flush();
                             bf.close();
@@ -202,7 +222,9 @@ public class Main {
                         }
                     }
                     if (txt) {
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter(nama, true))) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
+                        nama = scan.next();
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama))) {
                             for (int i = 0; i < ha.length; i++) {
                                 bf.write("x" + (i + 1) + " = " + ha[i]);
                                 bf.newLine();
