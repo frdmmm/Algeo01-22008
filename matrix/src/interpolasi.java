@@ -5,10 +5,11 @@ public class interpolasi {
         interpolasiL();
     }
 
-    public static void interpolasiL(){
+    public static String interpolasiL(){
         // input
         Scanner input = new Scanner(System.in);
         int n = input.nextInt();
+        String output = "";
 
         double[][] xy = new double[n][2];
         for (int i = 0; i < n; i++){
@@ -35,10 +36,11 @@ public class interpolasi {
         String[] out = Matrix.solusi(matrix);     
         // luaran berbentuk f(x) = a1 + a2x + a3x^2 + ...  
         if (out[0] == "Solusi tidak ada."){
-            System.out.println(out[0]);
+            output = out[0];
+            return output;
         }
         else {
-            System.out.print("f(x) = ");
+            output += "f(x) = ";
             for (int i = 0; i < out.length; i++){
                 if (Matrix.isNumber(out[i])){
                     if (Double.parseDouble(out[i]) == 0){
@@ -47,12 +49,13 @@ public class interpolasi {
                 }
 
                 if (i == 0){
-                    System.out.print("(" + out[i] + ")");
+                    output += "(" + out[i] + ")";
                 } else{
-                    System.out.print("(" + out[i] + ")" + "x^" + i);
+                    output += "(" + out[i] + ")" + "x^" + i;
                 }
-                if (i != out.length - 1) System.out.print(" + ");
+                if (i != out.length - 1) output += " + ";
             }
+            return output;
         }
     }
 

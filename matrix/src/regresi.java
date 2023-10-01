@@ -12,9 +12,10 @@ public class regresi {
         return out;
     }
     
-    public static void regresiL(double[][] matrix){
+    public static String regresiL(double[][] matrix){
         double[][] tabelRegresi = new double[Determinan.getLastIdxCol(matrix) + 1][Determinan.getLastIdxCol(matrix) + 2];
         int k = 1;
+        String output = "";
         for (int i = 0; i <= Determinan.getLastIdxRow(tabelRegresi); i++){
             for (int j = 0; j <= Determinan.getLastIdxCol(tabelRegresi); j++){
                 if (j == 0){
@@ -51,10 +52,11 @@ public class regresi {
         String[] out = Matrix.solusi(tabelRegresi);
         // luaran bentuk f(x) = b1 + b2x + b3x2 + ...
         if (out[0] == "Solusi tidak ada."){
-            System.out.println(out[0]);
+            output = out[0];
+            return output;
         }
         else {
-            System.out.print("f(x) = ");
+            output += "f(x) = ";
             for (int i = 0; i < out.length; i++){
                 if (Matrix.isNumber(out[i])){
                     if (Double.parseDouble(out[i]) == 0){
@@ -63,13 +65,14 @@ public class regresi {
                 }
 
                 if (i == 0){
-                    System.out.print("(" + out[i] + ")");
+                    output += "(" + out[i] + ")";
                 }
                 else{
-                    System.out.print("(" + out[i] + ")" + "x" + i);
+                    output += "(" + out[i] + ")" + "x" + i;
                 }
-                if (i != out.length - 1) System.out.print(" + ");
+                if (i != out.length - 1) output += " + ";
             }
+            return output;
         }
     }
 }
