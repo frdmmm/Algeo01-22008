@@ -11,11 +11,10 @@ import java.io.FileWriter;
 public class Matrix {
 
     public static double[][] readtxtmat(String str) {
-        String path = str;
 
         List<List<Double>> matrix = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("../test/" + str))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] elements = line.split("\\s+");
@@ -45,7 +44,7 @@ public class Matrix {
     }
 
     public static void writetxtmat(String namafile, double[][] mat) {
-        try (BufferedWriter bf = new BufferedWriter(new FileWriter(namafile))) {
+        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + namafile))) {
             for (int i = 0; i < mat.length; i++) {
                 for (int j = 0; j < mat[i].length; j++) {
                     if (j == mat[i].length - 1) {
