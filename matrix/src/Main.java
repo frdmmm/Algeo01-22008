@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
     public double[][] mat;
     public double[][] hasil;
-    public boolean determinan = false;
+    public boolean mat1 = false;
     public Scanner scan = new Scanner(System.in);
     public boolean print = true;
     public boolean txt = true;
@@ -23,9 +23,9 @@ public class Main {
                     runSubMenu();
                     break;
                 case 2:
-                    determinan = true;
+                    mat1 = true;
                     subsubmenu();
-                    determinan = false;
+                    mat1 = false;
                     printortxt();
                     boolean metdete = true;
                     System.out.println("Pilih Metode Determinan:");
@@ -84,8 +84,26 @@ public class Main {
                     }
                     break;
                 case 4:
+                    mat1 = true;
                     subsubmenu();
+                    mat1 = false;
+                    String hasilinter = interpolasi.interpolasiL(mat);
                     printortxt();
+                    if (print) {
+                        System.out.println(hasilinter);
+                    }
+                    if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
+                        String nama = scan.next();
+                        Matrix.writetxtmat(nama, mat);
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama, true))) {
+                            bf.write("" + hasilinter);
+                            bf.flush();
+                            bf.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
                 case 5:
                     System.out.println("Masukkan nama file:");
@@ -111,6 +129,22 @@ public class Main {
                 case 6:
                     subsubmenu();
                     printortxt();
+                    String hasilreg = regresi.regresiL(mat);
+                    if (print) {
+                        System.out.println(hasilreg);
+                    }
+                    if (txt) {
+                        System.out.println("Masukkan nama file (contoh:File.txt)");
+                        String nama = scan.next();
+                        Matrix.writetxtmat(nama, mat);
+                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama, true))) {
+                            bf.write("" + hasilreg);
+                            bf.flush();
+                            bf.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
                 case 7:
                     System.out.println("Exiting the program.");
@@ -266,7 +300,7 @@ public class Main {
 
             switch (subsubChoice) {
                 case 1:
-                    if (determinan) {
+                    if (mat1) {
                         mat = Matrix.readmatrix1();
                         return;
                     } else {
