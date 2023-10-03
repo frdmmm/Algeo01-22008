@@ -67,7 +67,9 @@ public class Main {
                     }
                     break;
                 case 3:
+                    mat1=true;
                     subsubmenu();
+                    mat1=false;
                     if (Determinan.determinanKofaktor(mat) != 0) {
                         printortxt();
                         mat = Determinan.balikan(mat);
@@ -246,24 +248,38 @@ public class Main {
                     return;
                 case 4:
                     subsubmenu();
-                    double[] ha = Determinan.kramer(mat);
-                    if (print) {
-                        for (int i = 0; i < ha.length; i++) {
-                            System.out.println("x" + (i + 1) + " = " + ha[i]);
-                        }
+                    if (mat[0].length!=mat.length+1){
+                        System.out.println("Error! Ukuran matriks tidak tepat. Fungsi ini hanya menerima matrikx n(n+1)");
                     }
-                    if (txt) {
-                        System.out.println("Masukkan nama file (contoh:File.txt)");
-                        nama = scan.next();
-                        try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama))) {
-                            for (int i = 0; i < ha.length; i++) {
-                                bf.write("x" + (i + 1) + " = " + ha[i]);
-                                bf.newLine();
+                    else{
+                        double[] ha = Determinan.kramer(mat);
+                        if (print) {
+                            if (Determinan.determinanKofaktor(mat)!=0){
+                                for (int i = 0; i < ha.length; i++) {
+                                    System.out.println("x" + (i + 1) + " = " + ha[i]);
+                                }
+                            }else{
+                                System.out.println("Error! Determinan matriks bernilai 0.");
                             }
-                            bf.flush();
-                            bf.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        }
+                        if (txt) {
+                            System.out.println("Masukkan nama file (contoh:File.txt)");
+                            nama = scan.next();
+                            try (BufferedWriter bf = new BufferedWriter(new FileWriter("../test/" + nama))) {
+                                if (Determinan.determinanKofaktor(mat)!=0)
+                                {   for (int i = 0; i < ha.length; i++) {
+                                        bf.write("x" + (i + 1) + " = " + ha[i]);
+                                        bf.newLine();
+                                    }
+                                }
+                                else{
+                                    bf.write("Error! Determinan matriks bernilai 0.");
+                                }
+                                bf.flush();
+                                bf.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     return;
