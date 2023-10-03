@@ -249,7 +249,7 @@ public class Main {
                 case 4:
                     subsubmenu();
                     if (mat[0].length!=mat.length+1){
-                        System.out.println("Error! Ukuran matriks tidak tepat. Fungsi ini hanya menerima matrikx n(n+1)");
+                        System.out.println("Error! Ukuran matriks tidak tepat. Fungsi ini hanya menerima matrikx n.(n+1)");
                     }
                     else{
                         double[] ha = Determinan.kramer(mat);
