@@ -1,18 +1,48 @@
-## Getting Started
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+# Matriks
+> Additional information or tagline
 
-## Folder Structure
+Program yang memanipulasi matriks untuk mendapat hasil yang diinginkan
 
-The workspace contains two folders by default, where:
+## Installing / Getting started
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+A quick introduction of the minimal setup you need to get a hello world up &
+running.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+```shell
+git clone https://github.com/frdmmm/Algeo01-22008.git
+cd Algeo01-22008
+java matrix/bin/Main
+```
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Jalankan kode diatas.
+Kode diatas akan memulai program.
 
-## Dependency Management
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+
+## Features
+
+Di dalam program, terdapat MENU untuk memilih hal yang ingin dilakukan.
+Setelah memilih yang akan dilakukan, user akan diminta memilih metode input (kecuali jika memilih bicubic spline interepolation).
+Jika memilih input user, pengguna memasukkan matriks dalam format
+
+m n        #ukuran matriks mxn
+isi matriks
+contoh
+```
+2 3
+1 2 3
+2 3 4
+```
+kecuali pada pilihan determinan dan balikan(pengguna hanya mengisi m, matriks akan berukuran mxm)
+2 2
+1 2
+3 4
+
+Jika memilih input text, pengguna memasukkan file txt yang ingin menjadi input di folder test.
+Pilihan bicubic spline interpolation berarti memilih input text secara otomatis.
+pengguna akan diarahkan untuk mengisi nama file txt yang diinginkan
+pengguna menginput nama file beserta format nya (contoh: "file.txt")
+
+Setelah menginput matriks, pengguna memilih metode input (print, txt, atau keduanya).
+file hasil output akan ada di folder test.
