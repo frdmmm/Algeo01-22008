@@ -246,7 +246,6 @@ public class Matrix {
 
     public static String[] solusi(double[][] matrix) {
         echelon(matrix);
-        printmatrix(matrix);
         String[] solusi = new String[Determinan.getLastIdxCol(matrix)];
         boolean flag;
         boolean noSolution = false;
