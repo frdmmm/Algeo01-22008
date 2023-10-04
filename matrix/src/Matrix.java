@@ -244,7 +244,19 @@ public class Matrix {
         return hasil;
     }
 
+    public static void main(String[] args){
+        double[][] ma = readmatrix();
+        echelon(ma);
+        String[] sol = solusi(ma);
+        for (String s : sol){
+            System.out.println(s);
+        }
+    }
+
+
     public static String[] solusi(double[][] matrix) {
+        echelon(matrix);
+        printmatrix(matrix);
         String[] solusi = new String[Determinan.getLastIdxCol(matrix)];
         boolean flag;
         boolean noSolution = false;
@@ -266,7 +278,8 @@ public class Matrix {
         for (int i = 0; i < solusi.length; i++) {
             char ch = (char) ('a' + idx);
             if (solusi[i] == null) {
-                solusi[i] = "1.0" + ch + "";
+                //solusi[i] = "1.0" + ch + "";
+                solusi[i] = ch + "";
                 idx++;
             }
         }
@@ -282,13 +295,10 @@ public class Matrix {
                     for (int k = j + 1; k < Determinan.getLastIdxCol(matrix); k++) {
                         if (hm.get(k) == null) {
                             if (matrix[i][k] != 0) {
-                                /*
-                                 * tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + ");
-                                 * tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] *
-                                 * -1)) + "(" + solusi[k] + ")";
-                                 */
-                                tempS += " " + multString(solusi[k], -1 * matrix[i][k]);
-                                tempS = smp(tempS);
+                                tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + ");
+                                tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] * -1)) + "(" + solusi[k] + ")";
+                                /*tempS += " " + multString(solusi[k], -1 * matrix[i][k]);
+                                tempS = smp(tempS);*/
                             }
                         } else {
                             tempI -= matrix[i][k] * hm.get(k);
@@ -315,39 +325,6 @@ public class Matrix {
         } else {
             return solusi;
         }
-        // print sol
-
-        /*
-         * if (print) {
-         * if (noSolution) {
-         * System.out.println("Solusi tidak ada.");
-         * } else {
-         * for (int i = 0; i < solusi.length; i++) {
-         * System.out.print("x" + (i + 1) + " = ");
-         * System.out.println(solusi[i].trim());
-         * }
-         * }
-         * }
-         * if (txt) {
-         * try (BufferedWriter bf = new BufferedWriter(new FileWriter(namafile))) {
-         * if (noSolution) {
-         * bf.write("Solusi tidak ada");
-         * bf.newLine();
-         * } else {
-         * for (int i = 0; i < solusi.length; i++) {
-         * bf.write("x" + (i + 1) + " = ");
-         * bf.write(solusi[i].trim());
-         * bf.newLine();
-         * }
-         * }
-         * bf.flush();
-         * bf.close();
-         * } catch (IOException e) {
-         * e.printStackTrace();
-         * }
-         * 
-         * }
-         */
     }
 
     public static boolean isNumber(String str) {
@@ -359,7 +336,8 @@ public class Matrix {
         }
     }
 
-    public static String multString(String str, double val) { // belum selesai
+    /*public static String multString(String str, double val) { // belum selesai
+        System.out.println("str = " + str);
         char[] spl = str.trim().toCharArray();
         String out = "";
         String angka = "";
@@ -369,8 +347,13 @@ public class Matrix {
                 angka += c;
             } else {
                 if (!angka.isEmpty()) {
-                    out += Double.toString(Double.parseDouble(angka) * val);
-                    angka = "";
+                    try {
+                        out += Double.toString(Double.parseDouble(angka) * val);
+                        angka = "";
+                    }
+                    catch(NumberFormatException e){
+                        System.out.println(angka);
+                    }
                 }
                 out += c + "";
             }
@@ -412,18 +395,7 @@ public class Matrix {
             }
         }
         return out;
-
-        // 1 3 -2 0 2 0 0
-        // 2 6 -5 -2 4 -3 -1
-        // 0 0 5 10 0 15 5
-        // 2 6 0 8 4 18 6
-        /*
-         * 1 3 -2 0 2 0 0
-         * 0 0 1 2 0 3 1
-         * 0 0 0 0 0 1 0.33
-         * 0 0 0 0 0 0 0
-         */
-    }
+    }*/
 
     public static String splbalikan(double[][] mat) {
         String hasil = "";

@@ -5,21 +5,9 @@ public class interpolasi {
     }
 
     public static String interpolasiL(double[][] xy) {
-        // input
-        // Scanner input = new Scanner(System.in);
-        // int n = input.nextInt();
         String output = "";
         int n = xy.length;
 
-        /*
-         * double[][] xy = new double[n][2];
-         * for (int i = 0; i < n; i++){
-         * xy[i][0] = input.nextDouble(); // x
-         * xy[i][1] = input.nextDouble(); // y
-         * }
-         */
-
-        // algoritma
         double[][] matrix = new double[n][n + 1];
         for (int row = 0; row < n; row++) {
             for (int col = 0; col < n + 1; col++) {
