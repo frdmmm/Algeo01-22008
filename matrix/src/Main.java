@@ -253,6 +253,7 @@ public class Main {
                     }
                     else{
                         double[] ha = Determinan.kramer(mat);
+                        printortxt();
                         if (print) {
                             if (Determinan.determinanKofaktor(mat)!=0){
                                 for (int i = 0; i < ha.length; i++) {
