@@ -9,22 +9,7 @@ public class Determinan {
     public static int getLastIdxCol(double[][] matrix){
         return (matrix[0].length - 1);
     }
-    public static void readMatrix(double[][] matrix) {
-        Scanner input = new Scanner(System.in);
-        for (int row = 0; row <= getLastIdxRow(matrix); row++){
-            for (int col = 0; col <= getLastIdxCol(matrix); col++){
-                matrix[row][col] = input.nextDouble();
-            }
-        }
-    }
-    public static void printMatrix(double[][] matrix) {
-        for (int row = 0; row <= getLastIdxRow(matrix); row++) {
-            for (int col = 0; col <= getLastIdxCol(matrix); col++) {
-                System.out.print(matrix[row][col] + " ");
-            }
-            System.out.println();
-        }
-    }
+
     public static double[][] cofactor(double[][] matrix, int row, int col){
         double[][] kof = new double[getLastIdxRow(matrix)][getLastIdxCol(matrix)];
         int cRow = 0, cCol = 0;
