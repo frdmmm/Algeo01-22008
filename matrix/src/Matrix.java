@@ -244,16 +244,6 @@ public class Matrix {
         return hasil;
     }
 
-    public static void main(String[] args){
-        double[][] ma = readmatrix();
-        echelon(ma);
-        String[] sol = solusi(ma);
-        for (String s : sol){
-            System.out.println(s);
-        }
-    }
-
-
     public static String[] solusi(double[][] matrix) {
         echelon(matrix);
         printmatrix(matrix);
