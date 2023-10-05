@@ -284,7 +284,7 @@ public class Matrix {
                     for (int k = j + 1; k < Determinan.getLastIdxCol(matrix); k++) {
                         if (hm.get(k) == null) {
                             if (matrix[i][k] != 0) {
-                                tempS += (matrix[i][k] > 0 ? " - " : "") + (matrix[i][k] > 0 ? "" : " + ");
+                                tempS += (matrix[i][k] > 0 ? "-" : "") + (matrix[i][k] > 0 ? "" : "+");
                                 tempS += Double.toString((matrix[i][k] > 0 ? matrix[i][k] : matrix[i][k] * -1)) + "(" + solusi[k] + ")";
                                 /*tempS += " " + multString(solusi[k], -1 * matrix[i][k]);
                                 tempS = smp(tempS);*/
@@ -299,6 +299,12 @@ public class Matrix {
                         if (tempS == "") {
                             solusi[j] = "0";
                         } else {
+                            if (tempS.charAt(0) == '+'){
+                                char[] temp = tempS.toCharArray();
+                                temp[0] = ' ';
+                                tempS = new String(temp);
+                                tempS = tempS.trim();
+                            }
                             solusi[j] = tempS;
                         }
                     } else {
