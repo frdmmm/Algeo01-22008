@@ -1,4 +1,20 @@
+import java.util.Scanner;
+
 public class regresi {
+    public static double[][] inputRegresi(){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int m = input.nextInt();
+
+        double[][] mat = new double[n + 1][m];
+        for (int i = 0; i < n + 1; i++){
+            for (int j = 0; j < m; j++){
+                mat[i][j] = input.nextDouble();
+            }
+        }
+        return mat;
+    }
+
     public static double colSum(double[][] matrix, int col){
         double out = 0;
         for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++){

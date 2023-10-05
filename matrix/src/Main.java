@@ -11,6 +11,7 @@ public class Main {
     public boolean print = true;
     public boolean txt = true;
     public boolean interpo = false;
+    public boolean reg = false;
 
     public void run() {
         int choice;
@@ -130,7 +131,9 @@ public class Main {
                     }
                     break;
                 case 6:
+                    reg = true;
                     subsubmenu();
+                    reg = false;
                     printortxt();
                     String hasilreg = regresi.regresiL(mat);
                     if (print) {
@@ -326,7 +329,12 @@ public class Main {
                         }
                         return;
                     } else {
-                        mat = Matrix.readmatrix();
+                        if (reg) {
+                            mat = regresi.inputRegresi();
+                        }
+                        else {
+                            mat = Matrix.readmatrix();
+                        }
                         return;
                     }
                 case 2:
