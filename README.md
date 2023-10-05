@@ -6,8 +6,7 @@ Program yang memanipulasi matriks untuk mendapat hasil yang diinginkan
 
 ## Installing / Getting started
 
-A quick introduction of the minimal setup you need to get a hello world up &
-running.
+
 
 ```shell
 git clone https://github.com/frdmmm/Algeo01-22008.git
