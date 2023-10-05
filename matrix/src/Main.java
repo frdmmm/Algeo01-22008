@@ -93,10 +93,11 @@ public class Main {
                     subsubmenu();
                     mat1 = false;
                     interpo = false;
-                    String hasilinter = interpolasi.interpolasiL(mat);
+                    String[] hasilinter = interpolasi.interpolasiL(mat);
                     printortxt();
                     if (print) {
-                        System.out.println(hasilinter);
+                        System.out.println(hasilinter[0]);
+                        System.out.println(hasilinter[1]);
                     }
                     if (txt) {
                         System.out.println("Masukkan nama file (contoh:File.txt)");
@@ -135,9 +136,10 @@ public class Main {
                     subsubmenu();
                     reg = false;
                     printortxt();
-                    String hasilreg = regresi.regresiL(mat);
+                    String[] hasilreg = regresi.regresiL(mat);
                     if (print) {
-                        System.out.println(hasilreg);
+                        System.out.println(hasilreg[0]);
+                        System.out.println(hasilreg[1]);
                     }
                     if (txt) {
                         System.out.println("Masukkan nama file (contoh:File.txt)");

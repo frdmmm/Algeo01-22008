@@ -13,8 +13,13 @@ public class interpolasi {
         return xy;
     }
 
-    public static String interpolasiL(double[][] xy) {
-        String output = "";
+    public static String[] interpolasiL(double[][] xy) {
+        Scanner input = new Scanner(System.in);
+        double x = input.nextDouble();
+
+        String output[] = new String[2];
+        output[0] = "";
+        output[1] = "";
         int n = xy.length;
 
         double[][] matrix = new double[n][n + 1];
@@ -33,10 +38,11 @@ public class interpolasi {
         String[] out = Matrix.solusi(matrix);
         // luaran berbentuk f(x) = a1 + a2x + a3x^2 + ...
         if (out[0] == "Solusi tidak ada.") {
-            output = out[0];
+            output[0] = out[0];
+            output[1] = "";
             return output;
         } else {
-            output += "f(x) = ";
+            output[0] += "f(x) = ";
             for (int i = 0; i < out.length; i++) {
                 if (Matrix.isNumber(out[i])) {
                     if (Double.parseDouble(out[i]) == 0) {
@@ -45,15 +51,42 @@ public class interpolasi {
                 }
 
                 if (i == 0) {
-                    output += "(" + out[i] + ")";
+                    output[0] += "(" + out[i] + ")";
                 } else {
-                    output += "(" + out[i] + ")" + "x^" + i;
+                    output[0] += "(" + out[i] + ")" + "x^" + i;
                 }
                 if (i != out.length - 1)
-                    output += " + ";
+                    output[0] += " + ";
             }
+            // hitung f(x)
+            if (regresi.isParameter(out)){
+                output[1] += "f(" + x + ") =";
+                for (int i = 0; i < out.length; i++) {
+                    if (Matrix.isNumber(out[i])) {
+                        if (Double.parseDouble(out[i]) == 0) {
+                            continue;
+                        }
+                    }
+
+                    if (i == 0) {
+                        output[1] += "(" + out[i] + ")";
+                    } else {
+                        output[1] += "(" + out[i] + ")" + Math.pow(x, i);
+                    }
+                    if (i != out.length - 1)
+                        output[1] += " + ";     
+                }
+            }
+            else {
+                double sum = Double.parseDouble(out[0]);
+                for (int i = 1; i < out.length; i++){
+                    sum += Double.parseDouble(out[i]) * Math.pow(x, i);
+                }
+                output[1] += "f(" + x + ") =";
+                output[1] += " " + sum;
+            }
+
             return output;
         }
     }
-
 }
