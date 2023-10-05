@@ -1,9 +1,4 @@
 public class regresi {
-    public static void main(String[] args){
-        double[][] matrix = Matrix.readmatrix();
-        regresiL(matrix);
-    }
-
     public static double colSum(double[][] matrix, int col){
         double out = 0;
         for (int i = 0; i <= Determinan.getLastIdxRow(matrix); i++){

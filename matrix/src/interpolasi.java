@@ -1,8 +1,6 @@
 import java.util.Scanner;
 
 public class interpolasi {
-    public static void main(String[] args) {
-    }
 
     public static String interpolasiL(double[][] xy) {
         String output = "";
