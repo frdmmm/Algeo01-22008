@@ -2,6 +2,17 @@ import java.util.Scanner;
 
 public class interpolasi {
 
+    public static double[][] inputXY(){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        double[][] xy = new double[n][2];
+        for (int i = 0; i < n; i++){
+            xy[i][0] = input.nextDouble();
+            xy[i][1] = input.nextDouble();
+        }
+        return xy;
+    }
+
     public static String interpolasiL(double[][] xy) {
         String output = "";
         int n = xy.length;

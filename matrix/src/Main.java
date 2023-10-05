@@ -10,6 +10,7 @@ public class Main {
     public Scanner scan = new Scanner(System.in);
     public boolean print = true;
     public boolean txt = true;
+    public boolean interpo = false;
 
     public void run() {
         int choice;
@@ -87,8 +88,10 @@ public class Main {
                     break;
                 case 4:
                     mat1 = true;
+                    interpo = true;
                     subsubmenu();
                     mat1 = false;
+                    interpo = false;
                     String hasilinter = interpolasi.interpolasiL(mat);
                     printortxt();
                     if (print) {
@@ -315,7 +318,12 @@ public class Main {
             switch (subsubChoice) {
                 case 1:
                     if (mat1) {
-                        mat = Matrix.readmatrix1();
+                        if (interpo){
+                            mat = interpolasi.inputXY();
+                        }
+                        else {
+                            mat = Matrix.readmatrix1();
+                        }
                         return;
                     } else {
                         mat = Matrix.readmatrix();
