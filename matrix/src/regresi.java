@@ -29,14 +29,17 @@ public class regresi {
         }
         return false;
     }
-    
-    public static String[] regresiL(double[][] matrix){
+
+    public static double[] inpXK(double[][] matrix){
         Scanner input = new Scanner(System.in);
-        double[] xk = new double[matrix[0].length];
-        for (int i = 0; i < matrix[0].length; i++){
+        double[] xk = new double[matrix[0].length - 1];
+        for (int i = 0; i < matrix[0].length - 1; i++){
             xk[i] = input.nextDouble();
         }
-
+        return xk;
+    }
+    
+    public static String[] regresiL(double[][] matrix, double[] xk){
         double[][] tabelRegresi = new double[Determinan.getLastIdxCol(matrix) + 1][Determinan.getLastIdxCol(matrix) + 2];
         int k = 1;
         String[] output = new String[2];

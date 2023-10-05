@@ -13,10 +13,13 @@ public class interpolasi {
         return xy;
     }
 
-    public static String[] interpolasiL(double[][] xy) {
+    public static double inpX(){
         Scanner input = new Scanner(System.in);
         double x = input.nextDouble();
+        return x;
+    }
 
+    public static String[] interpolasiL(double[][] xy, double x) {
         String output[] = new String[2];
         output[0] = "";
         output[1] = "";

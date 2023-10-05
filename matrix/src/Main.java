@@ -93,7 +93,8 @@ public class Main {
                     subsubmenu();
                     mat1 = false;
                     interpo = false;
-                    String[] hasilinter = interpolasi.interpolasiL(mat);
+                    double x = interpolasi.inpX();
+                    String[] hasilinter = interpolasi.interpolasiL(mat, x);
                     printortxt();
                     if (print) {
                         System.out.println(hasilinter[0]);
@@ -135,8 +136,9 @@ public class Main {
                     reg = true;
                     subsubmenu();
                     reg = false;
+                    double[] xk = regresi.inpXK(mat);
                     printortxt();
-                    String[] hasilreg = regresi.regresiL(mat);
+                    String[] hasilreg = regresi.regresiL(mat, xk);
                     if (print) {
                         System.out.println(hasilreg[0]);
                         System.out.println(hasilreg[1]);
